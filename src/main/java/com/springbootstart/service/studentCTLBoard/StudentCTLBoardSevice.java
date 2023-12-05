@@ -1,6 +1,5 @@
 package com.springbootstart.service.studentCTLBoard;
 
-import com.springbootstart.dto.BoardDTO;
 import com.springbootstart.dto.ctlBoard.StudentCTLBoardDTO;
 import com.springbootstart.dto.page.PageRequestDTO;
 import com.springbootstart.dto.page.PageResponseDTO;

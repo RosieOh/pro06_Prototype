@@ -13,7 +13,7 @@ public class StudentCTLBoard extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Sbno;
+    private Long sbno;
 
     @Column(length = 500, nullable = false)
     private String title;

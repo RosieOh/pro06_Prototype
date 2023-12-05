@@ -8,25 +8,39 @@ CREATE TABLE member(
                        mno BIGINT PRIMARY KEY AUTO_INCREMENT,            -- 고유번호
                        id VARCHAR(20) UNIQUE KEY NOT NULL,             -- 로그인 아이디
                        pw VARCHAR(300) NOT NULL,                       -- 비밀번호
-                       name VARCHAR(100) NOT NULL,                     -- 이름
+                       membername VARCHAR(100) NOT NULL,                     -- 이름
                        tel VARCHAR(20) NOT NULL,                       -- 전화번호
                        email VARCHAR(100),                             -- 이메일
                        addr1 VARCHAR(100),                             -- 주소
                        addr2 VARCHAR(200),                             -- 상세 주소
                        addrSchool VARCHAR(100),                        -- 학교 주소
+                       role_id int,									-- role 테이블 참조
                        status VARCHAR(50) DEFAULT 'ACTIVE',            -- REMOVE(삭제), DORMANT(휴면), ACTIVE(활동)
                        createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   -- 회원 등록일
-                       loginAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP     -- 마지막 로그인
+                       loginAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,    -- 마지막 로그인
+                       constraint key_name unique(id);					-- 아이디 중복 방지
+FOREIGN KEY (role_id) REFERENCES role(role_id)  --
 );
+
 
 CREATE TABLE role(
                      role_id INT PRIMARY KEY AUTO_INCREMENT,
                      role VARCHAR(255) DEFAULT NULL
 );
 
-INSERT INTO ROLE VALUES(DEFAULT, 'ADMIN');
-INSERT INTO ROLE VALUES(DEFAULT, 'TEACHER');
-INSERT INTO ROLE VALUES(99, 'STUDENT');
+-- 역할 추가
+INSERT INTO role (role) VALUES ('ADMIN');
+INSERT into role (role) values ('TEACHER');
+Insert into role (role) values ('STUDENT');
+
+
+-- 'admin' 역할에 대한 role_id 확인
+SELECT role_id FROM role WHERE role = 'admin';
+
+-- member 테이블에 있는 특정 회원에게 'admin' 역할 할당
+UPDATE member SET role_id = [admin] WHERE id = '[dhxogns]';
+
+SELECT * from role;
 
 -- 업로드 파일 관리
 CREATE TABLE fileData(
@@ -37,8 +51,10 @@ CREATE TABLE fileData(
                          saveName VARCHAR(255),                      -- 저장 이름
                          savePath VARCHAR(255),                      -- 저장 파일
                          fileType VARCHAR(100),                      -- 파일 종류
-                         status VARCHAR(50) DEFAULT 'ACTIVE'         -- REMOVE(삭제), ACTIVE(활동)
+                         status VARCHAR(50) DEFAULT 'ACTIVE',         -- REMOVE(삭제), ACTIVE(활동)
+                         bno bigint
 );
+
 
 create table board(
                       bno bigint auto_increment primary key,
@@ -47,17 +63,17 @@ create table board(
                       img VARCHAR(1000),
                       writer varchar(50) not null,
                       resdate timestamp DEFAULT CURRENT_TIMESTAMP,
-                      FOREIGN KEY(writer) REFERENCES member(id) ON DELETE CASCADE
+                      FOREIGN KEY(writer) REFERENCES member(mno) ON DELETE CASCADE;
 );
 
 CREATE TABLE notice(
-                       no INT PRIMARY KEY AUTO_INCREMENT,
+                       no bigINT PRIMARY KEY AUTO_INCREMENT,
                        title VARCHAR(500) NOT NULL,
                        content VARCHAR(1000) NOT NULL,
                        writer VARCHAR(50),
                        img VARCHAR(1000),
                        resdate timestamp DEFAULT CURRENT_TIMESTAMP,
-                       FOREIGN KEY(writer) REFERENCES member(id) ON DELETE CASCADE
+                       FOREIGN KEY(writer) REFERENCES member(mno) ON DELETE CASCADE
 )
 
 
@@ -74,7 +90,7 @@ create table qna (
                      content varchar(2000) not null,
                      writer varchar(50) not null,
                      resdate timestamp DEFAULT CURRENT_TIMESTAMP,
-                     FOREIGN KEY(writer) REFERENCES member(id) ON DELETE CASCADE
+                     FOREIGN KEY(writer) REFERENCES member(mno) ON DELETE CASCADE
 );
 
 create table studentCTLboard(
@@ -84,7 +100,7 @@ create table studentCTLboard(
                                 writer varchar(50) not null,
                                 saveFile VARCHAR(300) NOT NULL,
                                 resdate timestamp DEFAULT CURRENT_TIMESTAMP,
-                                FOREIGN KEY(writer) REFERENCES member(id) ON DELETE CASCADE
+                                FOREIGN KEY(writer) REFERENCES member(mno) ON DELETE CASCADE
 );
 
 create table teacherCTLboard(
@@ -94,7 +110,7 @@ create table teacherCTLboard(
                                 writer varchar(50) not null,
                                 saveFile VARCHAR(300) NOT NULL,
                                 resdate timestamp DEFAULT CURRENT_TIMESTAMP,
-                                FOREIGN KEY(writer) REFERENCES member(id) ON DELETE CASCADE
+                                FOREIGN KEY(writer) REFERENCES member(mno) ON DELETE CASCADE
 );
 
 create table teacherForStudentPortfolioBoard(
@@ -104,7 +120,7 @@ create table teacherForStudentPortfolioBoard(
                                                 writer varchar(50) not null,
                                                 saveFile VARCHAR(300) NOT NULL,
                                                 resdate timestamp DEFAULT CURRENT_TIMESTAMP,
-                                                FOREIGN KEY(writer) REFERENCES member(id) ON DELETE CASCADE
+                                                FOREIGN KEY(writer) REFERENCES member(mno) ON DELETE CASCADE
 );
 
 create table teacherEntranceBoard(
@@ -114,7 +130,7 @@ create table teacherEntranceBoard(
                                      writer varchar(50) not null,
                                      saveFile VARCHAR(300) NOT NULL,
                                      resdate timestamp DEFAULT CURRENT_TIMESTAMP,
-                                     FOREIGN KEY(writer) REFERENCES member(id) ON DELETE CASCADE
+                                     FOREIGN KEY(writer) REFERENCES member(mno) ON DELETE CASCADE
 );
 
 create table studentEntranceBoard(
@@ -124,29 +140,9 @@ create table studentEntranceBoard(
                                      writer varchar(50) not null,
                                      saveFile VARCHAR(300) NOT NULL,
                                      resdate timestamp DEFAULT CURRENT_TIMESTAMP,
-                                     FOREIGN KEY(writer) REFERENCES member(id) ON DELETE CASCADE
+                                     FOREIGN KEY(writer) REFERENCES member(mno) ON DELETE CASCADE
 );
 
-
--- 선생님 등록
-CREATE TABLE teacher(
-                        tcode INT PRIMARY KEY AUTO_INCREMENT,
-                        tid VARCHAR(20) NOT NULL,
-                        tname VARCHAR(50) NOT NULL,
-                        ttel VARCHAR(20) NOT NULL,
-                        temail VARCHAR(100) NOT NULL,
-                        tschool varchar(50) not null
-);
-
--- 학생 등록
-CREATE TABLE student(
-                        scode INT PRIMARY KEY AUTO_INCREMENT,
-                        sid VARCHAR(20) NOT NULL,
-                        sname VARCHAR(50) NOT NULL,
-                        stel VARCHAR(20) NOT NULL,
-                        semail VARCHAR(100) NOT NULL,
-                        sschool varchar(50) not null
-);
 
 CREATE TABLE recomment(
                           NO INT PRIMARY KEY AUTO_INCREMENT,
@@ -163,7 +159,7 @@ CREATE TABLE chatRoom (
                           UNIQUE (memId)                         -- memId를 UNIQUE 제약 설정
 );
 
--- 채팅 메시지 
+-- 채팅 메시지
 CREATE TABLE chatMessage(
                             chatNo BIGINT PRIMARY KEY AUTO_INCREMENT,   -- 채팅 번호
                             type VARCHAR(20) NOT NULL,                  -- 채팅 타입: ENTER, TALK, LEAVE, NOTICE
