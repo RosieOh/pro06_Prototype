@@ -1,4 +1,4 @@
-package com.springbootstart.repository.search.member;
+package com.springbootstart.service.member;
 
 import com.springbootstart.domain.Member;
 import com.springbootstart.dto.member.MemberSecurityDTO;

@@ -1,4 +1,4 @@
-package com.springbootstart.repository.search.member;
+package com.springbootstart.service.member;
 
 import com.springbootstart.constant.MemberRole;
 import com.springbootstart.domain.Member;
