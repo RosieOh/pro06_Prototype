@@ -1,6 +1,6 @@
 package com.springbootstart.config;
 
-import com.springbootstart.repository.search.member.CustomUserDetailsService;
+import com.springbootstart.service.member.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
