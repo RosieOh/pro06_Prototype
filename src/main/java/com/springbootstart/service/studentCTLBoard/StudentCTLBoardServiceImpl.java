@@ -1,6 +1,7 @@
 package com.springbootstart.service.studentCTLBoard;
 
 import com.springbootstart.domain.StudentCTLBoard;
+
 import com.springbootstart.dto.ctlBoard.StudentCTLBoardDTO;
 import com.springbootstart.dto.page.PageRequestDTO;
 import com.springbootstart.dto.page.PageResponseDTO;
@@ -13,7 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -58,9 +61,16 @@ public class StudentCTLBoardServiceImpl implements StudentCTLBoardSevice{
         String keyword = pageRequestDTO.getKeyword();
         Pageable pageable = pageRequestDTO.getPageable("sbno");
 
-        Page<StudentCTLBoard> re
-        return ;
-    }
+        Page<StudentCTLBoard> result = studentCTLBoardRepository.searchAll2(types, keyword, pageable);
 
-    // 등록 작업 처리
+        List<StudentCTLBoardDTO> dtoList = result.getContent().stream()
+                .map(studentCTLBoard -> modelMapper.map(studentCTLBoard, StudentCTLBoardDTO.class))
+                .collect(Collectors.toList());
+
+        return PageResponseDTO.<StudentCTLBoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int)result.getTotalElements())
+                .build();
+    }
 }
