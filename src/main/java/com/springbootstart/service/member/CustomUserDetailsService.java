@@ -2,7 +2,7 @@ package com.springbootstart.service.member;
 
 import com.springbootstart.domain.Member;
 import com.springbootstart.dto.member.MemberSecurityDTO;
-import com.springbootstart.repository.member.MemberRepository;
+import com.springbootstart.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.mail.javamail.JavaMailSender;

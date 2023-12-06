@@ -1,5 +1,6 @@
 package com.springbootstart.service.studentEntranceBoard;
 
+import com.springbootstart.domain.StudentCTLBoard;
 import com.springbootstart.domain.StudentEntranceBoard;
 import com.springbootstart.dto.entranceBoard.StudentEntranceBoardDTO;
 import com.springbootstart.dto.page.PageRequestDTO;
@@ -37,8 +38,10 @@ public class studentEntranceBoardServiceImpl implements studentEntranceBoardServ
 
     @Override
     public StudentEntranceBoardDTO readOne(Long sebno) {
-        S
-        return null;
+        Optional<StudentEntranceBoard> result = studentEntranceBoardRepository.findById(sebno);
+        StudentEntranceBoard studentEntranceBoard = result.orElseThrow();
+        StudentEntranceBoardDTO studentEntranceBoardDTO = modelMapper.map(studentEntranceBoard, StudentEntranceBoardDTO.class);
+        return studentEntranceBoardDTO;
     }
 
     @Override

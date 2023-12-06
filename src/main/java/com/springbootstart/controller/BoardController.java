@@ -1,7 +1,7 @@
 package com.springbootstart.controller;
 
 import com.springbootstart.dto.page.PageRequestDTO;
-import com.springbootstart.service.BoardService;
+import com.springbootstart.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
