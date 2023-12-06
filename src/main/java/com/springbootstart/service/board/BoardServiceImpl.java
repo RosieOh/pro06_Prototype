@@ -1,4 +1,4 @@
-package com.springbootstart.service;
+package com.springbootstart.service.board;
 
 import com.springbootstart.domain.Board;
 import com.springbootstart.dto.BoardDTO;

@@ -1,4 +1,4 @@
-package com.springbootstart.repository.member;
+package com.springbootstart.repository;
 
 import com.springbootstart.domain.Member;
 import jakarta.transaction.Transactional;

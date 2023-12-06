@@ -17,7 +17,7 @@ public class QStudentEntranceBoard extends EntityPathBase<StudentEntranceBoard> 
 
     private static final long serialVersionUID = 1457199943L;
 
-    public static final QStudentEntranceBoard studentEntranceBoard = new QStudentEntranceBoard("studentEntranceBoardService");
+    public static final QStudentEntranceBoard studentEntranceBoard = new QStudentEntranceBoard("studentEntranceBoard");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
