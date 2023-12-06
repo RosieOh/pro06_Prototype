@@ -1,4 +1,4 @@
-package com.springbootstart.repository.search.board;
+package com.springbootstart.service.search;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
@@ -177,7 +177,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     @Override
     public Page<TeacherCTLBoard> searchAll3(String[] types, String keyword, Pageable pageable) {
 
-        QTeacherCTLBoard teacherCTLBoardCTL = teacherCTLBoard;
+        QTeacherCTLBoard teacherCTLBoard= QTeacherCTLBoard.teacherCTLBoard;
 
         JPQLQuery<TeacherCTLBoard> query = from(teacherCTLBoard);
 
@@ -208,6 +208,136 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         this.getQuerydsl().applyPagination(pageable, query);
 
         List<TeacherCTLBoard> list = query.fetch();
+
+        long count = query.fetchCount();
+
+        return new PageImpl<>(list, pageable, count);
+    }
+
+    @Override
+    public Page<StudentEntraceBoard> search4(Pageable pageable) {
+        QStudentEntraceBoard studentEntraceBoard = QStudentEntraceBoard.studentEntraceBoard;
+
+        JPQLQuery<StudentEntraceBoard> query = from(studentEntraceBoard);
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.or(studentEntraceBoard.title.contains("11"));
+
+        booleanBuilder.or(studentEntraceBoard.content.contains("11"));
+
+        query.where(booleanBuilder);
+        query.where(studentEntraceBoard.sebno.gt(0L));
+
+        // paging
+        this.getQuerydsl().applyPagination(pageable, query);
+
+        List<StudentEntraceBoard> list = query.fetch();
+
+        long count = query.fetchCount();
+
+        return null;
+    }
+
+    @Override
+    public Page<StudentEntraceBoard> searchAll4(String[] types, String keyword, Pageable pageable) {
+
+        QStudentEntraceBoard studentEntraceBoard = QStudentEntraceBoard.studentEntraceBoard;
+
+        JPQLQuery<StudentEntraceBoard> query = from(studentEntraceBoard);
+
+        if ((types != null && types.length > 0) && keyword != null) {
+
+            BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+            for(String type: types) {
+
+                switch (type) {
+                    case "t":
+                        booleanBuilder.or(studentEntraceBoard.title.contains(keyword));
+                        break;
+                    case "c":
+                        booleanBuilder.or(studentEntraceBoard.content.contains(keyword));
+                        break;
+                    case "w":
+                        booleanBuilder.or(studentEntraceBoard.writer.contains(keyword));
+                        break;
+                }
+            }
+            query.where(booleanBuilder);
+        }
+
+        query.where(studentEntraceBoard.sebno.gt(0L));
+
+        // paging
+        this.getQuerydsl().applyPagination(pageable, query);
+
+        List<StudentEntraceBoard> list = query.fetch();
+
+        long count = query.fetchCount();
+
+        return new PageImpl<>(list, pageable, count);
+    }
+
+    @Override
+    public Page<TeacherEntraceBoard> search5(Pageable pageable) {
+        QStudentEntraceBoard studentEntraceBoard = QStudentEntraceBoard.studentEntraceBoard;
+
+        JPQLQuery<StudentEntraceBoard> query = from(studentEntraceBoard);
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        booleanBuilder.or(studentEntraceBoard.title.contains("11"));
+
+        booleanBuilder.or(studentEntraceBoard.content.contains("11"));
+
+        query.where(booleanBuilder);
+        query.where(studentEntraceBoard.sebno.gt(0L));
+
+        // paging
+        this.getQuerydsl().applyPagination(pageable, query);
+
+        List<StudentEntraceBoard> list = query.fetch();
+
+        long count = query.fetchCount();
+
+        return null;
+    }
+
+    @Override
+    public Page<StudentEntraceBoard> searchAll4(String[] types, String keyword, Pageable pageable) {
+
+        QStudentEntraceBoard studentEntraceBoard = QStudentEntraceBoard.studentEntraceBoard;
+
+        JPQLQuery<StudentEntraceBoard> query = from(studentEntraceBoard);
+
+        if ((types != null && types.length > 0) && keyword != null) {
+
+            BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+            for(String type: types) {
+
+                switch (type) {
+                    case "t":
+                        booleanBuilder.or(studentEntraceBoard.title.contains(keyword));
+                        break;
+                    case "c":
+                        booleanBuilder.or(studentEntraceBoard.content.contains(keyword));
+                        break;
+                    case "w":
+                        booleanBuilder.or(studentEntraceBoard.writer.contains(keyword));
+                        break;
+                }
+            }
+            query.where(booleanBuilder);
+        }
+
+        query.where(studentEntraceBoard.sebno.gt(0L));
+
+        // paging
+        this.getQuerydsl().applyPagination(pageable, query);
+
+        List<StudentEntraceBoard> list = query.fetch();
 
         long count = query.fetchCount();
 

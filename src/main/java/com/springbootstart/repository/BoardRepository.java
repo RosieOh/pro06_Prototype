@@ -1,7 +1,7 @@
 package com.springbootstart.repository;
 
 import com.springbootstart.domain.Board;
-import com.springbootstart.repository.search.board.BoardSearch;
+import com.springbootstart.service.search.BoardSearch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
