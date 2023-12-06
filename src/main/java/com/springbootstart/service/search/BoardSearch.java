@@ -1,8 +1,6 @@
-package com.springbootstart.repository.search.board;
+package com.springbootstart.service.search;
 
-import com.springbootstart.domain.Board;
-import com.springbootstart.domain.StudentCTLBoard;
-import com.springbootstart.domain.TeacherCTLBoard;
+import com.springbootstart.domain.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,4 +17,12 @@ public interface BoardSearch {
     Page<TeacherCTLBoard> search3(Pageable pageable);
 
     Page<TeacherCTLBoard> searchAll3(String[] types, String keyword, Pageable pageable);
+
+    Page<StudentEntraceBoard> search4(Pageable pageable);
+
+    Page<StudentEntraceBoard> searchAll4(String[] types, String keyword, Pageable pageable);
+
+    Page<TeacherEntranceBoard> search5(Pageable pageable);
+
+    Page<TeacherEntranceBoard> searchAll5(String[] types, String ketword, Pageable pageable);
 }
