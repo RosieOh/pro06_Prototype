@@ -33,6 +33,8 @@ public class QTeacherEntranceBoard extends EntityPathBase<TeacherEntranceBoard> 
 
     public final StringPath title = createString("title");
 
+    public final StringPath writer = createString("writer");
+
     public QTeacherEntranceBoard(String variable) {
         super(TeacherEntranceBoard.class, forVariable(variable));
     }

@@ -1,8 +1,13 @@
 package com.springbootstart.service.search;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.JPQLQuery;
 import com.springbootstart.domain.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface BoardSearch {
 
@@ -18,9 +23,9 @@ public interface BoardSearch {
 
     Page<TeacherCTLBoard> searchAll3(String[] types, String keyword, Pageable pageable);
 
-    Page<StudentEntraceBoard> search4(Pageable pageable);
+    Page<StudentEntranceBoard> search4(Pageable pageable);
 
-    Page<StudentEntraceBoard> searchAll4(String[] types, String keyword, Pageable pageable);
+    Page<StudentEntranceBoard> searchAll4(String[] types, String keyword, Pageable pageable);
 
     Page<TeacherEntranceBoard> search5(Pageable pageable);
 

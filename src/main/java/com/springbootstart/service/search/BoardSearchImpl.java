@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import java.util.List;
 
-import static com.springbootstart.domain.QTeacherCTLBoard.teacherCTLBoard;
+import static com.springbootstart.domain.QStudentEntranceBoard.studentEntranceBoard;
 
 public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardSearch {
 
@@ -215,24 +215,24 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     }
 
     @Override
-    public Page<StudentEntraceBoard> search4(Pageable pageable) {
-        QStudentEntraceBoard studentEntraceBoard = QStudentEntraceBoard.studentEntraceBoard;
+    public Page<StudentEntranceBoard> search4(Pageable pageable) {
+        QStudentEntranceBoard studentEntranceBoard = QStudentEntranceBoard.studentEntranceBoard;
 
-        JPQLQuery<StudentEntraceBoard> query = from(studentEntraceBoard);
+        JPQLQuery<StudentEntranceBoard> query = from(studentEntranceBoard);
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        booleanBuilder.or(studentEntraceBoard.title.contains("11"));
+        booleanBuilder.or(studentEntranceBoard.title.contains("11"));
 
-        booleanBuilder.or(studentEntraceBoard.content.contains("11"));
+        booleanBuilder.or(studentEntranceBoard.content.contains("11"));
 
         query.where(booleanBuilder);
-        query.where(studentEntraceBoard.sebno.gt(0L));
+        query.where(studentEntranceBoard.sebno.gt(0L));
 
         // paging
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<StudentEntraceBoard> list = query.fetch();
+        List<StudentEntranceBoard> list = query.fetch();
 
         long count = query.fetchCount();
 
@@ -240,11 +240,10 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     }
 
     @Override
-    public Page<StudentEntraceBoard> searchAll4(String[] types, String keyword, Pageable pageable) {
+    public Page<StudentEntranceBoard> searchAll4(String[] types, String keyword, Pageable pageable) {
+        QStudentEntranceBoard studentEntranceBoard = QStudentEntranceBoard.studentEntranceBoard;
 
-        QStudentEntraceBoard studentEntraceBoard = QStudentEntraceBoard.studentEntraceBoard;
-
-        JPQLQuery<StudentEntraceBoard> query = from(studentEntraceBoard);
+        JPQLQuery<StudentEntranceBoard> query = from(studentEntranceBoard);
 
         if ((types != null && types.length > 0) && keyword != null) {
 
@@ -254,25 +253,25 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
                 switch (type) {
                     case "t":
-                        booleanBuilder.or(studentEntraceBoard.title.contains(keyword));
+                        booleanBuilder.or(studentEntranceBoard.title.contains(keyword));
                         break;
                     case "c":
-                        booleanBuilder.or(studentEntraceBoard.content.contains(keyword));
+                        booleanBuilder.or(studentEntranceBoard.content.contains(keyword));
                         break;
                     case "w":
-                        booleanBuilder.or(studentEntraceBoard.writer.contains(keyword));
+                        booleanBuilder.or(studentEntranceBoard.writer.contains(keyword));
                         break;
                 }
             }
             query.where(booleanBuilder);
         }
 
-        query.where(studentEntraceBoard.sebno.gt(0L));
+        query.where(studentEntranceBoard.sebno.gt(0L));
 
         // paging
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<StudentEntraceBoard> list = query.fetch();
+        List<StudentEntranceBoard> list = query.fetch();
 
         long count = query.fetchCount();
 
@@ -280,24 +279,24 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     }
 
     @Override
-    public Page<TeacherEntraceBoard> search5(Pageable pageable) {
-        QStudentEntraceBoard studentEntraceBoard = QStudentEntraceBoard.studentEntraceBoard;
+    public Page<TeacherEntranceBoard> search5(Pageable pageable) {
+        QTeacherEntranceBoard teacherEntranceBoard = QTeacherEntranceBoard.teacherEntranceBoard;
 
-        JPQLQuery<StudentEntraceBoard> query = from(studentEntraceBoard);
+        JPQLQuery<TeacherEntranceBoard> query = from(teacherEntranceBoard);
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        booleanBuilder.or(studentEntraceBoard.title.contains("11"));
+        booleanBuilder.or(teacherEntranceBoard.title.contains("11"));
 
-        booleanBuilder.or(studentEntraceBoard.content.contains("11"));
+        booleanBuilder.or(teacherEntranceBoard.content.contains("11"));
 
         query.where(booleanBuilder);
-        query.where(studentEntraceBoard.sebno.gt(0L));
+        query.where(teacherEntranceBoard.tebno.gt(0L));
 
         // paging
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<StudentEntraceBoard> list = query.fetch();
+        List<TeacherEntranceBoard> list = query.fetch();
 
         long count = query.fetchCount();
 
@@ -305,43 +304,41 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     }
 
     @Override
-    public Page<StudentEntraceBoard> searchAll4(String[] types, String keyword, Pageable pageable) {
+    public Page<TeacherEntranceBoard> searchAll5(String[] types, String keyword, Pageable pageable) {
+        QTeacherEntranceBoard teacherEntranceBoard = QTeacherEntranceBoard.teacherEntranceBoard;
 
-        QStudentEntraceBoard studentEntraceBoard = QStudentEntraceBoard.studentEntraceBoard;
-
-        JPQLQuery<StudentEntraceBoard> query = from(studentEntraceBoard);
+        JPQLQuery<TeacherEntranceBoard> query = from(teacherEntranceBoard);
 
         if ((types != null && types.length > 0) && keyword != null) {
-
             BooleanBuilder booleanBuilder = new BooleanBuilder();
 
             for(String type: types) {
-
                 switch (type) {
                     case "t":
-                        booleanBuilder.or(studentEntraceBoard.title.contains(keyword));
+                        booleanBuilder.or(teacherEntranceBoard.title.contains(keyword));
                         break;
                     case "c":
-                        booleanBuilder.or(studentEntraceBoard.content.contains(keyword));
+                        booleanBuilder.or(teacherEntranceBoard.content.contains(keyword));
                         break;
                     case "w":
-                        booleanBuilder.or(studentEntraceBoard.writer.contains(keyword));
+                        booleanBuilder.or(teacherEntranceBoard.writer.contains(keyword));
                         break;
                 }
             }
             query.where(booleanBuilder);
         }
 
-        query.where(studentEntraceBoard.sebno.gt(0L));
+        query.where(teacherEntranceBoard.tebno.gt(0L));
 
         // paging
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<StudentEntraceBoard> list = query.fetch();
+        List<TeacherEntranceBoard> list = query.fetch();
 
         long count = query.fetchCount();
 
         return new PageImpl<>(list, pageable, count);
     }
+
 
 }
