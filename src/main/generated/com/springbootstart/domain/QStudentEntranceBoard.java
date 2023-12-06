@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QStudentEntraceBoard is a Querydsl query type for StudentEntraceBoard
+ * QStudentEntranceBoard is a Querydsl query type for StudentEntranceBoard
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QStudentEntraceBoard extends EntityPathBase<StudentEntraceBoard> {
+public class QStudentEntranceBoard extends EntityPathBase<StudentEntranceBoard> {
 
-    private static final long serialVersionUID = 1533062579L;
+    private static final long serialVersionUID = 1457199943L;
 
-    public static final QStudentEntraceBoard studentEntraceBoard = new QStudentEntraceBoard("studentEntraceBoard");
+    public static final QStudentEntranceBoard studentEntranceBoard = new QStudentEntranceBoard("studentEntranceBoardService");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
@@ -35,16 +35,16 @@ public class QStudentEntraceBoard extends EntityPathBase<StudentEntraceBoard> {
 
     public final StringPath writer = createString("writer");
 
-    public QStudentEntraceBoard(String variable) {
-        super(StudentEntraceBoard.class, forVariable(variable));
+    public QStudentEntranceBoard(String variable) {
+        super(StudentEntranceBoard.class, forVariable(variable));
     }
 
-    public QStudentEntraceBoard(Path<? extends StudentEntraceBoard> path) {
+    public QStudentEntranceBoard(Path<? extends StudentEntranceBoard> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QStudentEntraceBoard(PathMetadata metadata) {
-        super(StudentEntraceBoard.class, metadata);
+    public QStudentEntranceBoard(PathMetadata metadata) {
+        super(StudentEntranceBoard.class, metadata);
     }
 
 }

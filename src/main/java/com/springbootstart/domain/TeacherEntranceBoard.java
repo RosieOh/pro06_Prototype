@@ -21,6 +21,9 @@ public class TeacherEntranceBoard extends BaseEntity {
     @Column(length = 2000, nullable = false)
     private String content;
 
+    @Column(length = 50, nullable = false)
+    private String writer;
+
     public void change(String title, String content) {
         this.title = title;
         this.content = content;
