@@ -1,13 +1,8 @@
 package com.springbootstart.service.search;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.jpa.JPQLQuery;
-import com.springbootstart.domain.*;
+import com.springbootstart.entity.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface BoardSearch {
 

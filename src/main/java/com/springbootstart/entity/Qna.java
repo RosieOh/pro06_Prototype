@@ -1,9 +1,8 @@
-package com.springbootstart.domain;
+package com.springbootstart.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.security.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity

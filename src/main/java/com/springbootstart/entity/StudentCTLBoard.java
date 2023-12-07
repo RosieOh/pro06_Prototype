@@ -1,4 +1,4 @@
-package com.springbootstart.domain;
+package com.springbootstart.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,11 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class TeacherCTLBoard extends BaseEntity {
+public class StudentCTLBoard extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tbno;
+    private Long sbno;
 
     @Column(length = 500, nullable = false)
     private String title;
