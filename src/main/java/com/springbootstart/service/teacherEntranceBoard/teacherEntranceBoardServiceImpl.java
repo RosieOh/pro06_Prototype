@@ -1,7 +1,6 @@
 package com.springbootstart.service.teacherEntranceBoard;
 
-import com.springbootstart.domain.TeacherEntranceBoard;
-import com.springbootstart.dto.ctlBoard.TeacherCTLBoardDTO;
+import com.springbootstart.entity.TeacherEntranceBoard;
 import com.springbootstart.dto.entranceBoard.TeacherEntranceBoardDTO;
 import com.springbootstart.dto.page.PageRequestDTO;
 import com.springbootstart.dto.page.PageResponseDTO;

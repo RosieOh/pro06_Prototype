@@ -1,4 +1,4 @@
-package com.springbootstart.domain;
+package com.springbootstart.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QQna extends EntityPathBase<Qna> {
 
-    private static final long serialVersionUID = -1651749966L;
+    private static final long serialVersionUID = -1890864303L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

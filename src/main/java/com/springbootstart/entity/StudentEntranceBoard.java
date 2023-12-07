@@ -1,4 +1,4 @@
-package com.springbootstart.domain;
+package com.springbootstart.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,11 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Board extends BaseEntity{
+public class StudentEntranceBoard extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bno;
+    private Long sebno;
 
     @Column(length = 500, nullable = false)
     private String title;
@@ -24,7 +24,7 @@ public class Board extends BaseEntity{
     @Column(length = 50, nullable = false)
     private String writer;
 
-    public void change(String title, String content) {
+    public void change(String title, String content){
         this.title = title;
         this.content = content;
     }

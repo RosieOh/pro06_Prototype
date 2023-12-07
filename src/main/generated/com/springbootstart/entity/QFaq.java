@@ -1,4 +1,4 @@
-package com.springbootstart.domain;
+package com.springbootstart.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QFaq extends EntityPathBase<Faq> {
 
-    private static final long serialVersionUID = -1651760924L;
+    private static final long serialVersionUID = -1890875261L;
 
     public static final QFaq faq = new QFaq("faq");
 

@@ -1,4 +1,4 @@
-package com.springbootstart.domain;
+package com.springbootstart.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QTeacherCTLBoard is a Querydsl query type for TeacherCTLBoard
+ * QTeacherEntranceBoard is a Querydsl query type for TeacherEntranceBoard
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QTeacherCTLBoard extends EntityPathBase<TeacherCTLBoard> {
+public class QTeacherEntranceBoard extends EntityPathBase<TeacherEntranceBoard> {
 
-    private static final long serialVersionUID = -245131173L;
+    private static final long serialVersionUID = -362028223L;
 
-    public static final QTeacherCTLBoard teacherCTLBoard = new QTeacherCTLBoard("teacherCTLBoard");
+    public static final QTeacherEntranceBoard teacherEntranceBoard = new QTeacherEntranceBoard("teacherEntranceBoard");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
@@ -29,22 +29,22 @@ public class QTeacherCTLBoard extends EntityPathBase<TeacherCTLBoard> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
 
-    public final NumberPath<Long> tbno = createNumber("tbno", Long.class);
+    public final NumberPath<Long> tebno = createNumber("tebno", Long.class);
 
     public final StringPath title = createString("title");
 
     public final StringPath writer = createString("writer");
 
-    public QTeacherCTLBoard(String variable) {
-        super(TeacherCTLBoard.class, forVariable(variable));
+    public QTeacherEntranceBoard(String variable) {
+        super(TeacherEntranceBoard.class, forVariable(variable));
     }
 
-    public QTeacherCTLBoard(Path<? extends TeacherCTLBoard> path) {
+    public QTeacherEntranceBoard(Path<? extends TeacherEntranceBoard> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QTeacherCTLBoard(PathMetadata metadata) {
-        super(TeacherCTLBoard.class, metadata);
+    public QTeacherEntranceBoard(PathMetadata metadata) {
+        super(TeacherEntranceBoard.class, metadata);
     }
 
 }

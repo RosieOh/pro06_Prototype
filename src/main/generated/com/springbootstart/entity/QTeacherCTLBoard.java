@@ -1,4 +1,4 @@
-package com.springbootstart.domain;
+package com.springbootstart.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -10,18 +10,16 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QBoard is a Querydsl query type for Board
+ * QTeacherCTLBoard is a Querydsl query type for TeacherCTLBoard
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QBoard extends EntityPathBase<Board> {
+public class QTeacherCTLBoard extends EntityPathBase<TeacherCTLBoard> {
 
-    private static final long serialVersionUID = 1792362804L;
+    private static final long serialVersionUID = 396462458L;
 
-    public static final QBoard board = new QBoard("board");
+    public static final QTeacherCTLBoard teacherCTLBoard = new QTeacherCTLBoard("teacherCTLBoard");
 
     public final QBaseEntity _super = new QBaseEntity(this);
-
-    public final NumberPath<Long> bno = createNumber("bno", Long.class);
 
     public final StringPath content = createString("content");
 
@@ -31,20 +29,22 @@ public class QBoard extends EntityPathBase<Board> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
 
+    public final NumberPath<Long> tbno = createNumber("tbno", Long.class);
+
     public final StringPath title = createString("title");
 
     public final StringPath writer = createString("writer");
 
-    public QBoard(String variable) {
-        super(Board.class, forVariable(variable));
+    public QTeacherCTLBoard(String variable) {
+        super(TeacherCTLBoard.class, forVariable(variable));
     }
 
-    public QBoard(Path<? extends Board> path) {
+    public QTeacherCTLBoard(Path<? extends TeacherCTLBoard> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QBoard(PathMetadata metadata) {
-        super(Board.class, metadata);
+    public QTeacherCTLBoard(PathMetadata metadata) {
+        super(TeacherCTLBoard.class, metadata);
     }
 
 }

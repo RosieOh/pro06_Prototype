@@ -1,6 +1,6 @@
 package com.springbootstart.repository;
 
-import com.springbootstart.domain.Board;
+import com.springbootstart.entity.Board;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 @SpringBootTest
 @Log4j2

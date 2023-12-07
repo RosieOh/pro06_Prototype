@@ -1,6 +1,6 @@
 package com.springbootstart.service.board;
 
-import com.springbootstart.domain.Board;
+import com.springbootstart.entity.Board;
 import com.springbootstart.dto.BoardDTO;
 import com.springbootstart.dto.page.PageRequestDTO;
 import com.springbootstart.dto.page.PageResponseDTO;

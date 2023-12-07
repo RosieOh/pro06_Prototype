@@ -1,4 +1,4 @@
-package com.springbootstart.domain;
+package com.springbootstart.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -16,31 +15,41 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMember extends EntityPathBase<Member> {
 
-    private static final long serialVersionUID = 34699788L;
+    private static final long serialVersionUID = 1930230285L;
 
     public static final QMember member = new QMember("member1");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final BooleanPath del = createBoolean("del");
+    public final StringPath addr1 = createString("addr1");
+
+    public final StringPath addr2 = createString("addr2");
 
     public final StringPath email = createString("email");
 
-    public final StringPath mid = createString("mid");
+    public final StringPath id = createString("id");
 
-    public final StringPath mname = createString("mname");
+    public final StringPath img = createString("img");
+
+    public final DateTimePath<java.time.LocalDateTime> loginAt = createDateTime("loginAt", java.time.LocalDateTime.class);
+
+    public final NumberPath<Integer> mno = createNumber("mno", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
 
-    public final StringPath mpw = createString("mpw");
+    public final StringPath name = createString("name");
+
+    public final StringPath postcode = createString("postcode");
+
+    public final StringPath pw = createString("pw");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
 
-    public final SetPath<com.springbootstart.constant.MemberRole, EnumPath<com.springbootstart.constant.MemberRole>> roleSet = this.<com.springbootstart.constant.MemberRole, EnumPath<com.springbootstart.constant.MemberRole>>createSet("roleSet", com.springbootstart.constant.MemberRole.class, EnumPath.class, PathInits.DIRECT2);
+    public final EnumPath<com.springbootstart.constant.MemberRole> role = createEnum("role", com.springbootstart.constant.MemberRole.class);
 
-    public final BooleanPath social = createBoolean("social");
+    public final EnumPath<com.springbootstart.constant.Status> status = createEnum("status", com.springbootstart.constant.Status.class);
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));

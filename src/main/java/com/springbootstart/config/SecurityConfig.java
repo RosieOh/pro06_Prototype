@@ -1,75 +1,49 @@
 package com.springbootstart.config;
 
-import com.springbootstart.service.member.CustomUserDetailsService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import com.springbootstart.entity.Member;
+import com.springbootstart.service.member.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.sql.DataSource;
-
-@Log4j2
 @Configuration
-@RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    private final DataSource dataSource;
-
-    private final CustomUserDetailsService userDetailsService;
+    @Autowired
+    MemberService memberService;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        log.info("-------------------  filter Chain  ------------------");
-
-        http
-                .authorizeHttpRequests((authorizeHttpRequests) ->
-                        authorizeHttpRequests
-                                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                                .requestMatchers("/", "/**","/login","/join").permitAll()
-                                .anyRequest().authenticated());
-
-        http
-                .formLogin((formLogin) ->
-                        formLogin.loginPage("/login")
-                );
-
-        http
-                .csrf((csrf) ->
-                        csrf.disable()
-                );
-
-        http
-                .logout((logout) ->
-                        logout.logoutUrl("/logout").logoutSuccessUrl("/")
-                );
-
-        http
-                .exceptionHandling((exceptionHandling) ->
-                        exceptionHandling.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                );
-
+         //csrf 비활성화
+        http.csrf((csrf) -> csrf.disable());
+        http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll());
+        //로그인 설정
+        http.formLogin((formLogin) -> formLogin
+                .loginPage("/member/login")
+                .loginProcessingUrl("/member/loginPro")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/")
+                .failureUrl("/member/login"));
+        //로그아웃 설정
+        http.logout((logout) -> logout
+                .logoutUrl("/member/logout")
+                .logoutSuccessUrl("/"));
         return http.build();
     }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        log.info("-------------------- WebSecurity ----------------------");
-        return (web) -> web.ignoring().requestMatchers(
-                PathRequest.toStaticResources().atCommonLocations());
-    }
-
 }
