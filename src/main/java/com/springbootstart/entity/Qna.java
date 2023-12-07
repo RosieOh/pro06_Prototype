@@ -29,7 +29,7 @@ public class Qna extends BaseEntity{
 
     private LocalDateTime regDate;
 
-    @ManyToOne
-    @JoinColumn(name = "writer", referencedColumnName = "mno", insertable = false, updatable = false)
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "writer", referencedColumnName = "mno", insertable = false, updatable = false)
+//    private Member member;
 }
