@@ -1,6 +1,8 @@
 package com.springbootstart.controller;
 
+import com.springbootstart.dto.BoardDTO;
 import com.springbootstart.dto.page.PageRequestDTO;
+import com.springbootstart.dto.page.PageResponseDTO;
 import com.springbootstart.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,8 +19,11 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("list")
+    @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model) {
+        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+        log.info(responseDTO);
+        model.addAttribute("responseDTO", responseDTO);
         
     }
 }
