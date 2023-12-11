@@ -28,6 +28,10 @@ public class BoardDTO {
 
     @NotEmpty
     @Size(max = 50)
+    private String boardType;
+
+    @NotEmpty
+    @Size(max = 50)
     private String writer;
 
     private LocalDateTime regDate;
