@@ -9,7 +9,7 @@ import java.util.List;
 // 465P 부터 시작
 public interface BoardService {
 
-    public BoardDTO findByBno(Long bno);
+    public BoardDTO findByBno(Long bno, String boardType);
     public List<BoardDTO> findAll();
     public Long register(BoardDTO boardDTO);
     public void modify(BoardDTO boardDTO);

@@ -77,10 +77,10 @@ public class MemberController {
         }
 
         memberService.join(memberJoinDTO);
-        return "redirect:member/login";
+        return "redirect:login";
     }
 
-    @GetMapping("/member/mypage")
+    @GetMapping("mypage")
     public String mypageForm(Principal principal, Model model){
         log.info("/mypage .........");
 
@@ -94,7 +94,7 @@ public class MemberController {
     }
 
 
-    @PostMapping("/member/mypage")
+    @PostMapping("mypage")
     public String mypage (Profile profile, Principal principal){
 
         String mid = principal.getName();
