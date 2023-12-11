@@ -19,13 +19,15 @@ public class BoardDTO {
     private Long bno;
 
     @NotEmpty
-    @Size(min = 3, max = 100)
+    @Size(max = 200)
     private String title;
 
     @NotEmpty
+    @Size(max = 2000)
     private String content;
 
     @NotEmpty
+    @Size(max = 50)
     private String writer;
 
     private LocalDateTime regDate;

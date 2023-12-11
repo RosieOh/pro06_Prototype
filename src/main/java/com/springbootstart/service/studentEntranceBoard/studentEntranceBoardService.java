@@ -1,6 +1,5 @@
 package com.springbootstart.service.studentEntranceBoard;
 
-import com.springbootstart.dto.StudentEntranceBoardDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
 

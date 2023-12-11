@@ -19,13 +19,11 @@ public class QFaq extends EntityPathBase<Faq> {
 
     public static final QFaq faq = new QFaq("faq");
 
-    public final StringPath answer = createString("answer");
+    public final StringPath content = createString("content");
 
-    public final NumberPath<Integer> cnt = createNumber("cnt", Integer.class);
+    public final NumberPath<Integer> no = createNumber("no", Integer.class);
 
-    public final NumberPath<Long> fno = createNumber("fno", Long.class);
-
-    public final StringPath question = createString("question");
+    public final StringPath title = createString("title");
 
     public QFaq(String variable) {
         super(Faq.class, forVariable(variable));

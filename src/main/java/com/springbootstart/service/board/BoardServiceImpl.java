@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,27 +27,27 @@ public class BoardServiceImpl implements BoardService{
     private final ModelMapper modelMapper;
     private final BoardRepository boardRepository;
 
+    @Override
+    public BoardDTO findByBno(Long bno) {
+        Optional<Board> result = boardRepository.findById(bno);
+        BoardDTO dto = modelMapper.map(result, BoardDTO.class);
+        return dto;
+    }
+
+    @Override
+    public List<BoardDTO> findAll() {
+        List<Board> lst = boardRepository.findAll();
+        List<BoardDTO> boardList = lst.stream().map(board -> modelMapper.map(board, BoardDTO.class))
+                .collect(Collectors.toList());
+        return boardList;
+    }
+
     // 등록 작업 처리
     @Override
     public Long register(BoardDTO boardDTO) {
         Board board = modelMapper.map(boardDTO, Board.class);
-
         Long bno = boardRepository.save(board).getBno();
-
         return bno;
-    }
-
-
-    // 조회 작업 처리
-    @Override
-    public BoardDTO readOne(Long bno) {
-        Optional<Board> result = boardRepository.findById(bno);
-
-        Board board = result.orElseThrow();
-
-        BoardDTO boardDTO = modelMapper.map(board, BoardDTO.class);
-
-        return boardDTO;
     }
 
     // 수정 작업 처리
@@ -63,6 +64,7 @@ public class BoardServiceImpl implements BoardService{
     public void remove(Long bno) {
         boardRepository.deleteById(bno);
     }
+
 
     @Override
     public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {

@@ -1,6 +1,5 @@
 package com.springbootstart.controller;
 
-import com.springbootstart.dto.StudentEntranceBoardDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
 import com.springbootstart.service.studentEntranceBoard.studentEntranceBoardService;
