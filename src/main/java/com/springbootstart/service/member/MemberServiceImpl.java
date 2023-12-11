@@ -40,6 +40,7 @@ public class MemberServiceImpl implements MemberService{
 
     }
 
+
     @Override
     public Member existByEmail(String email) {
         return memberRepository.existsMemberByEmail(email);

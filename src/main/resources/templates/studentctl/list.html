@@ -98,7 +98,7 @@
                             <td>
                                 <a th:href="|@{/board/read(bno =${dto.bno})}&${link}|" class="text-decoration-none"> [[${dto.title}]] </a>
                             </td>
-                            <td th:text="${dto.writer}"></td>
+                            <td>[[${dto.writer}]]</td>
                             <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                         </tr>
                         </tbody>

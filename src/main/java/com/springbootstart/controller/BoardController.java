@@ -1,10 +1,12 @@
 package com.springbootstart.controller;
 
 import com.springbootstart.dto.BoardDTO;
+import com.springbootstart.dto.MemberSecurityDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
 import com.springbootstart.entity.Board;
 import com.springbootstart.service.board.BoardService;
+import com.springbootstart.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import jakarta.validation.Valid;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Controller
@@ -35,6 +38,9 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private MemberService memberService;
+
     @GetMapping("/api/list")
     @ResponseBody
     public List<BoardDTO> listAll() {
@@ -44,8 +50,8 @@ public class BoardController {
 
     @GetMapping("/api/read")
     @ResponseBody
-    public BoardDTO findByBno(Long bno) {
-        BoardDTO board = boardService.findByBno(bno);
+    public BoardDTO findByBno(Long bno, String boardType) {
+        BoardDTO board = boardService.findByBno(bno, boardType) ;
         return board;
     }
 
@@ -92,6 +98,7 @@ public class BoardController {
     public String boardListAll(PageRequestDTO pageRequestDTO, Model model) {
         PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
         List<BoardDTO> boardList = boardService.findAll();
+
         log.info(responseDTO);
         model.addAttribute("responseDTO", responseDTO);
         model.addAttribute("boardList", boardList);
@@ -100,8 +107,8 @@ public class BoardController {
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'TEACHER')")
     @GetMapping("/board/read")
-    public String read(Long bno, PageRequestDTO pageRequestDTO, Model model) {
-        BoardDTO boardDTO = boardService.findByBno(bno);
+    public String read(Long bno, String boardType, PageRequestDTO pageRequestDTO, Model model) {
+        BoardDTO boardDTO = boardService.findByBno(bno, boardType);
         log.info(boardDTO);
         model.addAttribute("dto", boardDTO);
         return "board/read";
@@ -126,8 +133,8 @@ public class BoardController {
     }
 
     @GetMapping("/modify")
-    public String modifyForm(Long bno, Model model) {
-        BoardDTO boardDTO = boardService.findByBno(bno);
+    public String modifyForm(Long bno, String boartType, Model model) {
+        BoardDTO boardDTO = boardService.findByBno(bno, boartType);
         model.addAttribute("dto", boardDTO);
         return "board/modify";
     }
