@@ -1,8 +1,8 @@
 package com.springbootstart.service.studentEntranceBoard;
 
-import com.springbootstart.dto.entranceBoard.StudentEntranceBoardDTO;
-import com.springbootstart.dto.page.PageRequestDTO;
-import com.springbootstart.dto.page.PageResponseDTO;
+import com.springbootstart.dto.StudentEntranceBoardDTO;
+import com.springbootstart.dto.PageRequestDTO;
+import com.springbootstart.dto.PageResponseDTO;
 
 public interface studentEntranceBoardService {
 
