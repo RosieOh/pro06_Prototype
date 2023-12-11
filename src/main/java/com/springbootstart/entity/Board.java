@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(exclude = "imageSet")
-public class Board extends BaseEntity{
+public class Board extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,29 +25,20 @@ public class Board extends BaseEntity{
     @Column(length = 2000, nullable = false)
     private String content;
 
-    @Column(length = 50, nullable = false)
-    private String writer;
+    @Column(length = 50)
+    private String boardType;
 
-    public void change(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer", referencedColumnName = "mid")
+    private Member member;
 
-    @OneToMany(mappedBy = "board", cascade = {CascadeType.ALL},
-            fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @BatchSize(size = 20)
     private Set<BoardImage> imageSet = new HashSet<>();
 
-    public void addImage(String uuid, String fileName) {
-        BoardImage boardImage = BoardImage.builder()
-                .uuid(uuid).fileName(fileName)
-                .board(this).ord(imageSet.size()).build();
-        imageSet.add(boardImage);
-    }
-
-    public void clearImages() {
-        imageSet.forEach(boardImage -> boardImage.changeBoard(null));
-        this.imageSet.clear();
+    public void change(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

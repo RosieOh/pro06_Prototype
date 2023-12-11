@@ -1,10 +1,7 @@
 package com.springbootstart.service.studentEntranceBoard;
 
-import com.springbootstart.entity.StudentEntranceBoard;
-import com.springbootstart.dto.StudentEntranceBoardDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
-import com.springbootstart.repository.StudentEntranceBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;

@@ -1,10 +1,7 @@
 package com.springbootstart.service.teacherEntranceBoard;
 
-import com.springbootstart.entity.TeacherEntranceBoard;
-import com.springbootstart.dto.TeacherEntranceBoardDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
-import com.springbootstart.repository.TeacherEntranceBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
