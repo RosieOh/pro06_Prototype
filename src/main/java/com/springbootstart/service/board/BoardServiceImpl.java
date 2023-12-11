@@ -2,8 +2,8 @@ package com.springbootstart.service.board;
 
 import com.springbootstart.entity.Board;
 import com.springbootstart.dto.BoardDTO;
-import com.springbootstart.dto.page.PageRequestDTO;
-import com.springbootstart.dto.page.PageResponseDTO;
+import com.springbootstart.dto.PageRequestDTO;
+import com.springbootstart.dto.PageResponseDTO;
 import com.springbootstart.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

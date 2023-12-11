@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Topic Listing Bootstrap 5 Template</title>
+    <th:block th:replace="layout/head :: head"></th:block>
+
+</head>
+<body id="top">
+<main>
+    <th:block th:replace="layout/header :: header"></th:block>
+
+    <section class="topics-detail-section section-padding" id="topics-detail">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-8 col-12 m-auto">
+                    <h3 class="mb-4">Introduction to Web Design</h3>
+
+                    <p>So how can you stand out, do something unique and interesting, build an online business, and get paid enough to change life. Please visit TemplateMo website to download free website templates.</p>
+
+                    <p><strong>There are so many ways to make money online</strong>. Below are several platforms you can use to find success. Keep in mind that there is no one path everyone can take. If that were the case, everyone would have a million dollars.</p>
+
+                    <blockquote>
+                        Freelancing your skills isn’t going to make you a millionaire overnight.
+                    </blockquote>
+
+                    <div class="row my-4">
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <img th:src="@{/images/businesswoman-using-tablet-analysis.jpg}" class="topics-detail-block-image img-fluid">
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-12 mt-4 mt-lg-0 mt-md-0">
+                            <img th:src="@{/images/colleagues-working-cozy-office-medium-shot.jpg}" class="topics-detail-block-image img-fluid">
+                        </div>
+                    </div>
+
+                    <p>Most people start with freelancing skills they already have as a side hustle to build up income. This extra cash can be used for a vacation, to boost up savings, investing, build business.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="row mt-3">
+        <form action="/board/list" method="get">
+            <div class="col">
+                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select class="form-select" name="type">
+                            <option value="">---</option>
+                            <option value="t" th:selected="${pageRequestDTO.type =='t'}">제목</option>
+                            <option value="c" th:selected="${pageRequestDTO.type =='c'}">내용</option>
+                            <option value="w" th:selected="${pageRequestDTO.type =='w'}">작성자</option>
+                            <option value="tc" th:selected="${pageRequestDTO.type =='tc'}">제목 내용</option>
+                            <option value="tcw" th:selected="${pageRequestDTO.type =='tcw'}">제목 내용 작성자</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary searchBtn" type="submit">Search</button>
+                        <button class="btn btn-outline-secondary clearBtn" type="button">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="row mt-3">
+        <div class="col">
+
+            <div class="card">
+                <div class="card-header">
+                    Board List
+                </div>
+                <div class="card-body" >
+                    <h5 class="card-title">Board List </h5>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Bno</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Writer</th>
+                            <th scope="col">RegDate</th>
+                        </tr>
+                        </thead>
+
+                        <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                        <tr th:each="dto:${responseDTO.dtoList}"  >
+                            <td>[[${dto.bno}]]</td>
+                            <td>
+                                <a th:href="|@{/board/read(bno =${dto.bno})}&${link}|" class="text-decoration-none"> [[${dto.title}]] </a>
+                            </td>
+                            <td>[[${dto.writer}]]</td>
+                            <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                        </tr>
+                        </tbody>
+
+
+                    </table>
+
+                    <div class="float-end">
+                        <ul class="pagination flex-wrap">
+
+                            <li class="page-item" th:if="${responseDTO.prev}">
+                                <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                            </li>
+
+                            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                <li th:class="${responseDTO.page == i}?'page-item active':'page-item'" >
+                                    <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
+                                </li>
+                            </th:block>
+
+                            <li class="page-item" th:if="${responseDTO.next}">
+                                <a class="page-link"  th:data-num="${responseDTO.end + 1}">Next</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div><!--end card body-->
+            </div><!--end card-->
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" onclick="location.href='/board/register'">Add to POST</button>
+            </div>
+        </div><!-- end col-->
+    </div><!-- end row-->
+
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+
+
+    <script layout:fragment="script" th:inline="javascript">
+
+        document.querySelector(".pagination").addEventListener("click", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+
+            const target = e.target
+
+            if(target.tagName !== 'A') {
+                return
+            }
+
+            const num = target.getAttribute("data-num")
+
+            const formObj = document.querySelector("form")
+
+            formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+
+            formObj.submit();
+
+        },false)
+
+        document.querySelector(".clearBtn").addEventListener("click", function (e){
+            e.preventDefault()
+            e.stopPropagation()
+
+            self.location ='/board/list'
+
+        },false)
+
+        //show modal
+        const result = [[${result}]]
+
+        const modal = new bootstrap.Modal(document.querySelector(".modal"))
+
+        if(result){
+            modal.show()
+        }
+
+
+
+    </script>
+
+</main>
+
+<th:block th:replace="layout/footer :: footer"></th:block>
+
+</body>
+</html>

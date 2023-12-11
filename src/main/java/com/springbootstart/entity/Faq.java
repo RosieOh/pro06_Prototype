@@ -15,16 +15,10 @@ public class Faq {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "fno")
-    private Long fno;
-
-    @Column(name = "question", nullable = false, length = 1000)
-    private String question;
-
-    @Column(name = "answer", nullable = false, length = 1000)
-    private String answer;
-
-    @Column(name = "cnt", nullable = false, columnDefinition = "int default 0")
-    private int cnt;
+    private Integer no;
+    @Column(length = 20)
+    private String title;
+    @Column(length = 1000)
+    private String content;
 
 }

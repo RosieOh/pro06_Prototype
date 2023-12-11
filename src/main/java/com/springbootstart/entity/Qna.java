@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "qna")
-public class Qna extends BaseEntity{
+public class Qna extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Qna extends BaseEntity{
 
     private LocalDateTime regDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "writer", referencedColumnName = "mno", insertable = false, updatable = false)
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer", referencedColumnName = "mid")
+    private Member member;
 }

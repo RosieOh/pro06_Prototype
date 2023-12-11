@@ -1,9 +1,9 @@
 package com.springbootstart.service.teacherCTLBoard;
 
 import com.springbootstart.entity.TeacherCTLBoard;
-import com.springbootstart.dto.ctlBoard.TeacherCTLBoardDTO;
-import com.springbootstart.dto.page.PageRequestDTO;
-import com.springbootstart.dto.page.PageResponseDTO;
+import com.springbootstart.dto.TeacherCTLBoardDTO;
+import com.springbootstart.dto.PageRequestDTO;
+import com.springbootstart.dto.PageResponseDTO;
 import com.springbootstart.repository.TeacherCTLBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
