@@ -57,10 +57,10 @@ public class SecurityConfig {
                         .failureUrl("/member/loginFail")
                 );
 
-        http
-                .csrf((csrf) ->
-                        csrf.disable()
-                );
+//        http
+//                .csrf((csrf) ->
+//                        csrf.disable()
+//                );
 
         http
                 .logout((logout) ->

@@ -8,99 +8,97 @@
     <meta name="author" content="">
     <title>Topic Listing Bootstrap 5 Template</title>
     <th:block th:replace="layout/head :: head"></th:block>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 </head>
 <body id="top">
 <th:block th:replace="layout/header :: header"></th:block>
 
 
 <main>
-    <section class="topics-detail-section section-padding" id="topics-detail">
+    <section class="page-title" style="background: linear-gradient(to right, #71AEE8, #77E9CE); padding: 100px 0;">
         <div class="container">
             <div class="row">
-
-                <div class="col-lg-8 col-12 m-auto">
-                    <h3 class="mb-4">Introduction to Web Design</h3>
-
-                    <p>So how can you stand out, do something unique and interesting, build an online business, and get paid enough to change life. Please visit TemplateMo website to download free website templates.</p>
-
-                    <p><strong>There are so many ways to make money online</strong>. Below are several platforms you can use to find success. Keep in mind that there is no one path everyone can take. If that were the case, everyone would have a million dollars.</p>
-
-                    <blockquote>
-                        Freelancing your skills isn’t going to make you a millionaire overnight.
-                    </blockquote>
-
-                    <div class="row my-4">
-                        <div class="col-lg-6 col-md-6 col-12">
-                            <img th:src="@{/images/businesswoman-using-tablet-analysis.jpg}" class="topics-detail-block-image img-fluid">
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-12 mt-4 mt-lg-0 mt-md-0">
-                            <img th:src="@{/images/colleagues-working-cozy-office-medium-shot.jpg}" class="topics-detail-block-image img-fluid">
-                        </div>
-                    </div>
-
-                    <p>Most people start with freelancing skills they already have as a side hustle to build up income. This extra cash can be used for a vacation, to boost up savings, investing, build business.</p>
+                <div class="col-md-8 offset-md-2 text-center">
+                    <h3> 공지사항 </h3>
                 </div>
-
             </div>
         </div>
     </section>
-    <div class="container" style="padding-top: 100px;">
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        Board Register
-                    </div>
-                    <div class="card-body">
-                        <form action="/board/register" method="post">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Title</span>
-                                <input type="text" name="title" class="form-control" placeholder="Title">
-                            </div>
 
-                            <div class="input-group mb-3">
-                                <select name="boardType" id="boardType">
-                                    <option value="notice">공지사항</option>
-                                </select>
-                            </div>
+    <section id="pricing" class="pricing" style="padding-top: 100px;">
+        <div class="container" data-aos="fade-up">
+            <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
+                <div class="pricing-item featured" style="padding:0;">
+                    <form th:action="@{/board/register}" method="post">
+                        <div class="col-12">
+                            <div class="card w-100">
+                                <div class="card-body">
+                                    <div class="table-responsive project-list">
+                                        <!-- Added border attribute to the table -->
+                                        <table class="table project-table table-centered table-nowrap" style="border: none;">
+                                            <tbody>
+                                            <tr>
+                                                <!--                                                <th class="text-center" style="vertical-align: middle; width: 15%; border: none;">제목</th>-->
+                                                <td style="border: none;"><input type="text" id="title" name="title" placeholder="제목을 입력하세요" class="form-control" required></td>
+                                            </tr>
+                                            <tr>
+                                                <!--                                                <th class="text-center" style="vertical-align: middle; width: 15%; border: none;">내용</th>-->
+                                                <td style="border: none;">
+                                                    <div id="editor">
+                                                        <textarea name="content" id="myTextarea" rows="8" maxlength="1000" class="form-control" style="height: 200px; border: 1px solid #cbcbcb"></textarea>
+                                                    </div>
+<!--                                                    <script>-->
+<!--                                                        CKEDITOR.replace('content',	{filebrowserUploadUrl:'/notice/imageUpload.do'});-->
+<!--                                                    </script>-->
+                                                    <script>
+                                                        const Editor = toastui.Editor;
+                                                        const textarea = document.querySelector('#myTextarea');
 
+                                                        // 숨겨진 textarea 대신에 에디터를 생성할 div 요소를 만듭니다.
+                                                        const editorDiv = document.createElement('div');
+                                                        editorDiv.id = 'editor';
+                                                        textarea.parentNode.insertBefore(editorDiv, textarea);
+                                                        textarea.style.display = 'none';  // 숨겨진 textarea
 
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Content</span>
-                                <textarea class="form-control col-sm-5" rows="5" name="content"></textarea>
-                            </div>
+                                                        const editor = new Editor({
+                                                            el: editorDiv,
+                                                            height: '500px',
+                                                            initialEditType: 'markdown',
+                                                            previewStyle: 'vertical',
+                                                            initialValue: textarea.value  // 초기값을 textarea의 값으로 설정
+                                                        });
 
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Writer</span>
-                                <input type="text" name="writer" class="form-control" placeholder="Writer">
-
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Images</span>
-                                <div class="float-end uploadHidden">
-                                    <button type="button" class="btn btn-primary uploadFileBtn">ADD Files</button>
+                                                        // 에디터의 내용이 변경될 때마다 textarea에 값을 업데이트합니다.
+                                                        editor.on('change', () => {
+                                                            textarea.value = editor.getMarkdown();
+                                                        });
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="input-group mb-3">
+                                            <select name="boardType" id="boardType">
+                                                <option value="board">공지사항</option>
+                                            </select>
+                                        </div>
+                                        <div class="btn-group float-right mr-3" style="float:right;">
+                                            <input type="submit" id="btn" class="btn btn-dark" style="height: 100%; " value="등록">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                            <div class="my-4">
-                                <div class="float-end">
-                                    <button type="submit" class="btn btn-primary submitBtn">Submit</button>
-                                    <button type="reset" class="btn btn-secondary">Reset</button>
-                                </div>
-                            </div>
 
-
-                        </form>
-                    </div><!--end card body-->
-
-                </div><!--end card-->
-            </div><!-- end col-->
-        </div><!-- end row-->
-
-        <!—- 첨부 파일 섬네일을 보여줄 부분 -->
+    <!—- 첨부 파일 섬네일을 보여줄 부분 -->
         <div class="row mt-3">
             <div class="col ">
                 <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">

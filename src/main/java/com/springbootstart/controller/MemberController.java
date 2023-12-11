@@ -24,7 +24,6 @@ import java.util.Objects;
 @Log4j2
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/member/*")
 public class MemberController {
 
     private final MemberService memberService;
@@ -33,26 +32,26 @@ public class MemberController {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("login")
+    @GetMapping("/member/login")
     public String login(Model model) {
         model.addAttribute("memberJoinDTO", new MemberJoinDTO());
         return "member/login";
     }
 
-    @GetMapping("loginFail")
+    @GetMapping("/member/loginFail")
     public String loginFail (Model model) {
         model.addAttribute("msg", "로그인 실패! 다시 시도해 주세요!");
         model.addAttribute("url", "login");
         return "layout/loginFail";
     }
 
-    @GetMapping("join")
+    @GetMapping("/member/join")
     public String join(Model model) {
         model.addAttribute("memberJoinDTO", new MemberJoinDTO());
         return "member/join";
     }
 
-    @PostMapping("join")
+    @PostMapping("/member/join")
     public String joinPOST(@Valid MemberJoinDTO memberJoinDTO, BindingResult bindingResult, Model model){
         log.info("join post...");
         log.info(memberJoinDTO);
@@ -80,7 +79,7 @@ public class MemberController {
         return "redirect:login";
     }
 
-    @GetMapping("mypage")
+    @GetMapping("/member/mypage")
     public String mypageForm(Principal principal, Model model){
         log.info("/mypage .........");
 
@@ -94,7 +93,7 @@ public class MemberController {
     }
 
 
-    @PostMapping("mypage")
+    @PostMapping("/member/mypage")
     public String mypage (Profile profile, Principal principal){
 
         String mid = principal.getName();
