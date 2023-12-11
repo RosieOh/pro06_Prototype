@@ -28,8 +28,8 @@ public class BoardServiceImpl implements BoardService{
     private final BoardRepository boardRepository;
 
     @Override
-    public BoardDTO findByBno(Long bno) {
-        Optional<Board> result = boardRepository.findById(bno);
+    public BoardDTO findByBno(Long bno, String boardType) {
+        Optional<Board> result = boardRepository.findById(bno, boardType);
         BoardDTO dto = modelMapper.map(result, BoardDTO.class);
         return dto;
     }
