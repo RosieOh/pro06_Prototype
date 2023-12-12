@@ -17,5 +17,11 @@ public interface BoardService {
 
 
 
-    PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardDTO> listNotice(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardDTO> listStudentCTL(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardDTO> listStudentEntrance(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardDTO> listTeacherCTL(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardDTO> listTeacherEntrance(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardDTO> listFaq(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardDTO> listQna(PageRequestDTO pageRequestDTO);
 }

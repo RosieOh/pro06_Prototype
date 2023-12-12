@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Topic Listing Bootstrap 5 Template</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <title>공지사항</title>
     <th:block th:replace="layout/head :: head"></th:block>
 
 </head>
@@ -49,27 +52,20 @@
         </form>
     </div>
 
-
     <div class="row mt-3">
         <div class="col">
-
             <div class="card">
-                <div class="card-header">
-                    Board List
-                </div>
                 <div class="card-body" >
-                    <h5 class="card-title">Board List </h5>
-
-                    <table class="table">
+                    <h5 class="card-title">공지사항</h5>
+                    <table class="table" id="table">
                         <thead>
                         <tr>
-                            <th scope="col">Bno</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Writer</th>
-                            <th scope="col">RegDate</th>
+                            <th scope="col"> 글 번호 </th>
+                            <th scope="col"> 제목 </th>
+                            <th scope="col"> 작성자 </th>
+                            <th scope="col"> 작성 일자 </th>
                         </tr>
                         </thead>
-
                         <tbody th:with="link = ${pageRequestDTO.getLink()}">
                         <tr th:each="dto:${responseDTO.dtoList}"  >
                             <td>[[${dto.bno}]]</td>
@@ -80,38 +76,30 @@
                             <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                         </tr>
                         </tbody>
-
-
                     </table>
 
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
-
                             <li class="page-item" th:if="${responseDTO.prev}">
                                 <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
                             </li>
-
                             <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
                                 <li th:class="${responseDTO.page == i}?'page-item active':'page-item'" >
                                     <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
                                 </li>
                             </th:block>
-
                             <li class="page-item" th:if="${responseDTO.next}">
                                 <a class="page-link"  th:data-num="${responseDTO.end + 1}">Next</a>
                             </li>
                         </ul>
                     </div>
-
-
-                </div><!--end card body-->
-            </div><!--end card-->
+                </div>
+            </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary" onclick="location.href='/board/register'">Add to POST</button>
             </div>
-        </div><!-- end col-->
-    </div><!-- end row-->
-
+        </div>
+    </div>
     <div class="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -129,11 +117,6 @@
             </div>
         </div>
     </div>
-
-
-    </div>
-
-
     <script th:inline="javascript">
 
         document.querySelector(".pagination").addEventListener("click", function (e) {
@@ -145,38 +128,74 @@
             if(target.tagName !== 'A') {
                 return
             }
-
             const num = target.getAttribute("data-num")
-
             const formObj = document.querySelector("form")
-
             formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
-
             formObj.submit();
-
         },false)
 
         document.querySelector(".clearBtn").addEventListener("click", function (e){
             e.preventDefault()
             e.stopPropagation()
-
             self.location ='/board/list'
-
         },false)
 
         //show modal
         const result = [[${result}]]
-
         const modal = new bootstrap.Modal(document.querySelector(".modal"))
-
         if(result){
             modal.show()
         }
-
-
-
     </script>
 
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $('#table').DataTable({
+                paging:true, //paging 처리 여부다
+                searching:true, //검색 여부
+                language: { //언어 설정
+                    paginate: {
+                        previous: "이전",
+                        next:"다음"
+                    },
+                    zeroRecords: "검색 결과가 없습니다."
+                }
+            });
+        });
+    </script>
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $('#table').DataTable({
+                paging: true, // 페이징 처리 여부
+                searching: true, // 검색 여부
+                language: { // 언어 설정
+                    paginate: {
+                        previous: "이전",
+                        next: "다음"
+                    },
+                    zeroRecords: "검색 결과가 없습니다."
+                },
+                initComplete: function () {
+                    // 'NOTICE' boardType에 대한 사용자 정의 필터 추가
+                    this.api().columns(3).every(function () {
+                        var column = this;
+                        $('<select class="form-select"><option value="">전체</option><option value="NOTICE">공지사항</option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+                    });
+                }
+            });
+        });
+    </script>
 </main>
 
 <th:block th:replace="layout/footer :: footer"></th:block>

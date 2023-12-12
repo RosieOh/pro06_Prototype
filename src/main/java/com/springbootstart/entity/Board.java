@@ -28,8 +28,7 @@ public class Board extends BaseEntity {
     @Column(length = 2000, nullable = false)
     private String content;
 
-    @Enumerated(EnumType.STRING)
-    private BoardType boardType;
+    private String boardType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer", referencedColumnName = "mid")

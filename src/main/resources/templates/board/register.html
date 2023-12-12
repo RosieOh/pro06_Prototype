@@ -38,13 +38,15 @@
                                     <div class="table-responsive project-list">
                                         <!-- Added border attribute to the table -->
                                         <table class="table project-table table-centered table-nowrap" style="border: none;">
+<!--                                            <div class="input-group mb-3" th:if="${boardType == 'NOTICE'}">-->
+<!--                                                <select name="boardType" id="boardType">-->
+<!--                                                    <option value="NOTICE">공지사항</option>-->
+<!--                                                </select>-->
                                             <tbody>
                                             <tr>
-                                                <!--                                                <th class="text-center" style="vertical-align: middle; width: 15%; border: none;">제목</th>-->
                                                 <td style="border: none;"><input type="text" id="title" name="title" placeholder="제목을 입력하세요" class="form-control" required></td>
                                             </tr>
                                             <tr>
-                                                <!--                                                <th class="text-center" style="vertical-align: middle; width: 15%; border: none;">내용</th>-->
                                                 <td style="border: none;">
                                                     <div id="editor">
                                                         <textarea name="content" id="myTextarea" rows="8" maxlength="1000" class="form-control" style="height: 200px; border: 1px solid #cbcbcb"></textarea>
@@ -78,15 +80,15 @@
                                                 </td>
                                             </tr>
                                             </tbody>
+                                            <div class="input-group mb-3">
+                                                <select name="boardType" id="boardType">
+                                                    <option value="NOTICE" th:selected="${boardType == 'NOTICE'}">공지사항</option>
+                                                </select>
+                                            </div>
+                                            <div class="btn-group float-right mr-3" style="float:right;">
+                                                <input type="submit" id="btn" class="btn btn-dark" style="height: 100%; " value="등록">
+                                            </div>
                                         </table>
-                                        <div class="input-group mb-3">
-                                            <select name="boardType" id="boardType">
-                                                <option value="board">공지사항</option>
-                                            </select>
-                                        </div>
-                                        <div class="btn-group float-right mr-3" style="float:right;">
-                                            <input type="submit" id="btn" class="btn btn-dark" style="height: 100%; " value="등록">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,8 +99,6 @@
         </div>
     </section>
 
-
-    <!—- 첨부 파일 섬네일을 보여줄 부분 -->
         <div class="row mt-3">
             <div class="col ">
                 <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
@@ -106,7 +106,6 @@
             </div>
         </div>
 
-        <!—- 첨부파일 추가를 위한 모달창 -->
         <div class="modal uploadModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
