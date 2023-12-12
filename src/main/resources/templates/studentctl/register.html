@@ -31,7 +31,7 @@
         <div class="container" data-aos="fade-up">
             <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
                 <div class="pricing-item featured" style="padding:0;">
-                    <form th:action="@{/board/register}" method="post">
+                    <form th:action="@{/studentctl/register}" method="post">
                         <div class="col-12">
                             <div class="card w-100">
                                 <div class="card-body">
@@ -82,7 +82,7 @@
                                             </tbody>
                                             <div class="input-group mb-3">
                                                 <select name="boardType" id="boardType">
-                                                    <option value="NOTICE" th:selected="${boardType == 'NOTICE'}">공지사항</option>
+                                                    <option value="StudentCTL" th:selected="${boardType == 'StudentCTL'}">학생 입시 게시판</option>
                                                 </select>
                                             </div>
                                             <div class="btn-group float-right mr-3" style="float:right;">

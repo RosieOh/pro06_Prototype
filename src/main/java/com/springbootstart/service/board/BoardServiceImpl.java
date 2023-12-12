@@ -94,7 +94,7 @@ public class BoardServiceImpl implements BoardService{
         this.pageRequestDTO1 = pageRequestDTO;
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
-        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        String boardType = BoardType.StudentCTL.toString(); // 추가: NOTICE 타입만 검색
         Pageable pageable = pageRequestDTO.getPageable("bno");
 
         Page<Board> result;
@@ -121,7 +121,7 @@ public class BoardServiceImpl implements BoardService{
         this.pageRequestDTO1 = pageRequestDTO;
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
-        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        String boardType = BoardType.StudentEntrance.toString(); // 추가: NOTICE 타입만 검색
         Pageable pageable = pageRequestDTO.getPageable("bno");
 
         Page<Board> result;
@@ -148,7 +148,7 @@ public class BoardServiceImpl implements BoardService{
         this.pageRequestDTO1 = pageRequestDTO;
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
-        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        String boardType = BoardType.TeacherCTL.toString(); // 추가: NOTICE 타입만 검색
         Pageable pageable = pageRequestDTO.getPageable("bno");
 
         Page<Board> result;
@@ -175,7 +175,7 @@ public class BoardServiceImpl implements BoardService{
         this.pageRequestDTO1 = pageRequestDTO;
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
-        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        String boardType = BoardType.TeacherEntance.toString(); // 추가: NOTICE 타입만 검색
         Pageable pageable = pageRequestDTO.getPageable("bno");
 
         Page<Board> result;
@@ -201,7 +201,7 @@ public class BoardServiceImpl implements BoardService{
         this.pageRequestDTO1 = pageRequestDTO;
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
-        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        String boardType = BoardType.Faq.toString(); // 추가: NOTICE 타입만 검색
         Pageable pageable = pageRequestDTO.getPageable("bno");
 
         Page<Board> result;
@@ -228,7 +228,7 @@ public class BoardServiceImpl implements BoardService{
         this.pageRequestDTO1 = pageRequestDTO;
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
-        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        String boardType = BoardType.Qna.toString(); // 추가: NOTICE 타입만 검색
         Pageable pageable = pageRequestDTO.getPageable("bno");
 
         Page<Board> result;

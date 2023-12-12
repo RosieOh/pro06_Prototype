@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -56,25 +57,27 @@ public class NoticeController {
         return "notice/read";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/notice/register")
     public String registerForm() {
         return "notice/register";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/notice/register")
-    public String noticeRegister(@Valid BoardDTO boardDTO, RedirectAttributes redirectAttributes, BindingResult bindingResult, Model model){
-        log.info("Notice POST register....");
+    public String noticeRegister(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        log.info("board POST register.......");
 
         if(bindingResult.hasErrors()) {
-            log.info("has errors.........");
+            log.info("has errors..........");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
-
         log.info(boardDTO);
         Long bno = boardService.register(boardDTO);
         return "redirect:/notice/list";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/notice/modify")
     public String modifyForm(Long bno, String boardType, Model model) {
         BoardDTO boardDTO = boardService.findByBno(bno, boardType);
@@ -82,6 +85,7 @@ public class NoticeController {
         return "notice/modify";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/notice/modify")
     public String modify(@Valid BoardDTO boardDTO,
                          BindingResult bindingResult,
