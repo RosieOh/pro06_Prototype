@@ -4,6 +4,7 @@ import com.springbootstart.entity.Board;
 import com.springbootstart.dto.BoardDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
+import com.springbootstart.entity.BoardType;
 import com.springbootstart.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,8 +29,40 @@ public class BoardServiceImpl implements BoardService{
     private final ModelMapper modelMapper;
     private final BoardRepository boardRepository;
 
-    @Override
-    public BoardDTO findByBno(Long bno, String boardType) {
+    public void createAndSaveBoards() {
+        List<Board> board = new ArrayList<>();
+
+        Board noticeBoard = new Board();
+        noticeBoard.setTitle("공지사항");
+        noticeBoard.setContent("내용");
+        noticeBoard.setBoardType(BoardType.NOTICE);
+        board.add(noticeBoard);
+
+        Board studentCTL = new Board();
+        studentCTL.setTitle("학생 포트폴리오 게시판");
+        studentCTL.setContent("내용");
+        studentCTL.setBoardType(BoardType.StudentCTL);
+        board.add(studentCTL);
+
+        Board teacherCTL = new Board();
+        teacherCTL.setTitle("선생님용 학생 E-PortFolio 게시판");
+        teacherCTL.setContent("내용");
+        teacherCTL.setBoardType(BoardType.TeacherCTL);
+        board.add(teacherCTL);
+
+        Board qna = new Board();
+        qna.setTitle("질의응답");
+        qna.setContent("내용");
+        qna.setBoardType(BoardType.Qna);
+        board.add(qna);
+
+        // 생성한 게시판들을 저장
+        boardRepository.saveAll(board);
+    }
+
+
+        @Override
+        public BoardDTO findByBno(Long bno, String boardType) {
         Optional<Board> result = boardRepository.findById(bno, boardType);
         BoardDTO dto = modelMapper.map(result, BoardDTO.class);
         return dto;
