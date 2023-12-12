@@ -26,7 +26,7 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final NumberPath<Long> bno = createNumber("bno", Long.class);
 
-    public final StringPath boardType = createString("boardType");
+    public final EnumPath<BoardType> boardType = createEnum("boardType", BoardType.class);
 
     public final StringPath content = createString("content");
 

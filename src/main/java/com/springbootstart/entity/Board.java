@@ -1,14 +1,17 @@
 package com.springbootstart.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,8 +28,8 @@ public class Board extends BaseEntity {
     @Column(length = 2000, nullable = false)
     private String content;
 
-    @Column(length = 50)
-    private String boardType;
+    @Enumerated(EnumType.STRING)
+    private BoardType boardType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer", referencedColumnName = "mid")
