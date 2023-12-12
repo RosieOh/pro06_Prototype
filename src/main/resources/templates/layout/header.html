@@ -17,7 +17,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 300px;">
+            <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 200px;">
                 <ul class="navbar-nav ms-lg-5 me-lg-auto">
                     <li class="nav-item">
                         <a class="nav-link click-scroll" th:href="@{/}">Home</a>
@@ -56,7 +56,9 @@
                         <li class="nav-item">
                             <span class="nav-link text-white" th:text="${#authentication.principal.mname + '님 환영합니다'}"></span>
                         </li>
-                        &nbsp;
+                        &nbsp<li class="nav-item">
+                            <a th:href="@{/member/mypage(id=${#authentication.principal})}" class="nav-link text-white add-button">마이홈</a>
+                        </li>
                         <li class="nav-item">
                             <form th:action="@{/logout}" method="post">
                              <!--   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
