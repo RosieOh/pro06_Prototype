@@ -30,7 +30,7 @@ public class studentEntranceController {
 
     @GetMapping({"/studententrance", "/studententrance/list"})
     public String boardListAll(PageRequestDTO pageRequestDTO, Model model) {
-        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+        PageResponseDTO<BoardDTO> responseDTO = boardService.listStudentEntrance(pageRequestDTO);
         List<BoardDTO> boardList = boardService.findAll();
 
         log.info(responseDTO);

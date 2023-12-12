@@ -96,7 +96,7 @@ public class BoardController {
 
     @GetMapping({"/board", "/board/list"})
     public String boardListAll(PageRequestDTO pageRequestDTO, Model model) {
-        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+        PageResponseDTO<BoardDTO> responseDTO = boardService.listNotice(pageRequestDTO);
         List<BoardDTO> boardList = boardService.findAll();
 
         log.info(responseDTO);
@@ -133,8 +133,8 @@ public class BoardController {
     }
 
     @GetMapping("/modify")
-    public String modifyForm(Long bno, String boartType, Model model) {
-        BoardDTO boardDTO = boardService.findByBno(bno, boartType);
+    public String modifyForm(Long bno, String boardType, Model model) {
+        BoardDTO boardDTO = boardService.findByBno(bno, boardType);
         model.addAttribute("dto", boardDTO);
         return "board/modify";
     }

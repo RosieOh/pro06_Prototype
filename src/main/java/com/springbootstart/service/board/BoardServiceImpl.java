@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,7 @@ public class BoardServiceImpl implements BoardService{
 
     private final ModelMapper modelMapper;
     private final BoardRepository boardRepository;
+    private PageRequestDTO pageRequestDTO1;
 
     public void createAndSaveBoards() {
         List<Board> board = new ArrayList<>();
@@ -35,25 +35,25 @@ public class BoardServiceImpl implements BoardService{
         Board noticeBoard = new Board();
         noticeBoard.setTitle("공지사항");
         noticeBoard.setContent("내용");
-        noticeBoard.setBoardType(BoardType.NOTICE);
+        noticeBoard.setBoardType(BoardType.NOTICE.toString());
         board.add(noticeBoard);
 
         Board studentCTL = new Board();
         studentCTL.setTitle("학생 포트폴리오 게시판");
         studentCTL.setContent("내용");
-        studentCTL.setBoardType(BoardType.StudentCTL);
+        studentCTL.setBoardType(BoardType.StudentCTL.toString());
         board.add(studentCTL);
 
         Board teacherCTL = new Board();
         teacherCTL.setTitle("선생님용 학생 E-PortFolio 게시판");
         teacherCTL.setContent("내용");
-        teacherCTL.setBoardType(BoardType.TeacherCTL);
+        teacherCTL.setBoardType(BoardType.TeacherCTL.toString());
         board.add(teacherCTL);
 
         Board qna = new Board();
         qna.setTitle("질의응답");
         qna.setContent("내용");
-        qna.setBoardType(BoardType.Qna);
+        qna.setBoardType(BoardType.Qna.toString());
         board.add(qna);
 
         // 생성한 게시판들을 저장
@@ -61,8 +61,196 @@ public class BoardServiceImpl implements BoardService{
     }
 
 
-        @Override
-        public BoardDTO findByBno(Long bno, String boardType) {
+    // Notice 게시판 조건 줘서 불러오는 메소드
+    @Override
+    public PageResponseDTO<BoardDTO> listNotice(PageRequestDTO pageRequestDTO) {
+        this.pageRequestDTO1 = pageRequestDTO;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> result;
+
+        if (boardType != null) {
+            result = boardRepository.findByBoardType(boardType, pageable);
+        } else {
+            result = boardRepository.searchAll(types, keyword, pageable);
+        }
+
+        List<BoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+    }
+
+    // StudentCTL 게시판 조건 줘서 불러오는 메소드
+    @Override
+    public PageResponseDTO<BoardDTO> listStudentCTL(PageRequestDTO pageRequestDTO) {
+        this.pageRequestDTO1 = pageRequestDTO;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> result;
+
+        if (boardType != null) {
+            result = boardRepository.findByBoardType(boardType, pageable);
+        } else {
+            result = boardRepository.searchAll(types, keyword, pageable);
+        }
+
+        List<BoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+    }
+
+    // StudentEntrance 게시판 조건 줘서 불러오는 메소드
+    @Override
+    public PageResponseDTO<BoardDTO> listStudentEntrance(PageRequestDTO pageRequestDTO) {
+        this.pageRequestDTO1 = pageRequestDTO;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> result;
+
+        if (boardType != null) {
+            result = boardRepository.findByBoardType(boardType, pageable);
+        } else {
+            result = boardRepository.searchAll(types, keyword, pageable);
+        }
+
+        List<BoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+    }
+
+    // TeacherCTL 게시판 조건 줘서 불러오는 메소드
+    @Override
+    public PageResponseDTO<BoardDTO> listTeacherCTL(PageRequestDTO pageRequestDTO) {
+        this.pageRequestDTO1 = pageRequestDTO;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> result;
+
+        if (boardType != null) {
+            result = boardRepository.findByBoardType(boardType, pageable);
+        } else {
+            result = boardRepository.searchAll(types, keyword, pageable);
+        }
+
+        List<BoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+    }
+
+    // TeacherEntrance 게시판 조건 줘서 불러오는 메소드
+    @Override
+    public PageResponseDTO<BoardDTO> listTeacherEntrance(PageRequestDTO pageRequestDTO) {
+        this.pageRequestDTO1 = pageRequestDTO;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> result;
+
+        if (boardType != null) {
+            result = boardRepository.findByBoardType(boardType, pageable);
+        } else {
+            result = boardRepository.searchAll(types, keyword, pageable);
+        }
+
+        List<BoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+    }
+    // Faq 게시판 조건 줘서 불러오는 메소드
+    @Override
+    public PageResponseDTO<BoardDTO> listFaq(PageRequestDTO pageRequestDTO) {
+        this.pageRequestDTO1 = pageRequestDTO;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> result;
+
+        if (boardType != null) {
+            result = boardRepository.findByBoardType(boardType, pageable);
+        } else {
+            result = boardRepository.searchAll(types, keyword, pageable);
+        }
+
+        List<BoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+    }
+
+    // Qna 게시판 조건 줘서 불러오는 메소드
+    @Override
+    public PageResponseDTO<BoardDTO> listQna(PageRequestDTO pageRequestDTO) {
+        this.pageRequestDTO1 = pageRequestDTO;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        String boardType = BoardType.NOTICE.toString(); // 추가: NOTICE 타입만 검색
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> result;
+
+        if (boardType != null) {
+            result = boardRepository.findByBoardType(boardType, pageable);
+        } else {
+            result = boardRepository.searchAll(types, keyword, pageable);
+        }
+
+        List<BoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
+    }
+
+    @Override
+    public BoardDTO findByBno(Long bno, String boardType) {
         Optional<Board> result = boardRepository.findById(bno, boardType);
         BoardDTO dto = modelMapper.map(result, BoardDTO.class);
         return dto;
@@ -97,25 +285,5 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void remove(Long bno) {
         boardRepository.deleteById(bno);
-    }
-
-
-    @Override
-    public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
-
-        String[] types = pageRequestDTO.getTypes();
-        String keyword = pageRequestDTO.getKeyword();
-        Pageable pageable = pageRequestDTO.getPageable("bno");
-
-        Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
-
-        List<BoardDTO> dtoList = result.getContent().stream()
-                .map(board -> modelMapper.map(board, BoardDTO.class)).collect(Collectors.toList());
-
-        return PageResponseDTO.<BoardDTO>withAll()
-                .pageRequestDTO(pageRequestDTO)
-                .dtoList(dtoList)
-                .total((int)result.getTotalElements())
-                .build();
     }
 }

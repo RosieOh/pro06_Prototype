@@ -29,7 +29,7 @@ public class teacherCTLBoardController {
 
     @GetMapping({"/teacherctl", "/teacherctl/list"})
     public String boardListAll(PageRequestDTO pageRequestDTO, Model model) {
-        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+        PageResponseDTO<BoardDTO> responseDTO = boardService.listTeacherCTL(pageRequestDTO);
         List<BoardDTO> boardList = boardService.findAll();
 
         log.info(responseDTO);

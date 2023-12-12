@@ -27,9 +27,9 @@ public class teacherEntranceBoardController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping({"/teacherentrance", "/teacherentrance/list"})
+    @GetMapping({"/teacherent", "/teacherent/list"})
     public String boardListAll(PageRequestDTO pageRequestDTO, Model model) {
-        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+        PageResponseDTO<BoardDTO> responseDTO = boardService.listTeacherEntrance(pageRequestDTO);
         List<BoardDTO> boardList = boardService.findAll();
 
         log.info(responseDTO);
