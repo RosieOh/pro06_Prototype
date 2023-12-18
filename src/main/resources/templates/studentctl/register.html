@@ -32,16 +32,13 @@
             <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
                 <div class="pricing-item featured" style="padding:0;">
                     <form th:action="@{/studentctl/register}" method="post">
+<!--                        <h1 th:text="${principal}"></h1>-->
                         <div class="col-12">
                             <div class="card w-100">
                                 <div class="card-body">
                                     <div class="table-responsive project-list">
                                         <!-- Added border attribute to the table -->
                                         <table class="table project-table table-centered table-nowrap" style="border: none;">
-                                            <!--                                            <div class="input-group mb-3" th:if="${boardType == 'NOTICE'}">-->
-                                            <!--                                                <select name="boardType" id="boardType">-->
-                                            <!--                                                    <option value="NOTICE">공지사항</option>-->
-                                            <!--                                                </select>-->
                                             <tbody>
                                             <tr>
                                                 <td style="border: none;"><input type="text" id="title" name="title" placeholder="제목을 입력하세요" class="form-control" required></td>
@@ -87,6 +84,10 @@
                                             </div>
                                             <div class="btn-group float-right mr-3" style="float:right;">
                                                 <input type="submit" id="btn" class="btn btn-dark" style="height: 100%; " value="등록">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="author">작성자</label>
+                                                <input type="text" class="form-control" id="author" name="author" th:value="${#authentication.principal.mname}" readonly>
                                             </div>
                                         </table>
                                     </div>

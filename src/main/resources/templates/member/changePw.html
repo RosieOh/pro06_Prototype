@@ -6,9 +6,11 @@
     <title>비밀번호변경</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <th:block th:replace="layout/head :: head"></th:block>
 </head>
 <body>
 <div>
+    <th:block th:replace="layout/header :: header"></th:block>
     <form th:action="@{/member/changePw}" autocomplete="off" th:object="${memberJoinDTO}" method="post">
 
         <div class="form-outline mb-1">
@@ -37,5 +39,6 @@
         <button type="submit" class="btn btn-primary btn-block mb-4">변경</button>
     </form>
 </div>
+<th:block th:replace="layout/footer :: footer"></th:block>
 </body>
 </html>

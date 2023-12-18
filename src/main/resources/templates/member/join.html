@@ -50,6 +50,10 @@
                                                     <input type="text" th:field="*{mname}" class="form-control" placeholder="이름" autocomplete="off">
                                                     <p th:if="${#fields.hasErrors('mname')}" th:errors="*{mname}" class="fieldError">Incorrect data</p>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임" autocomplete="off">
+                                                    <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="fieldError">Incorrect data</p>
+                                                </div>
                                                 <div class="mb-3" style="display: flex;">
                                                     <input type="email" th:field="*{email}" class="form-control" placeholder="이메일" id="memail" autocomplete="off" style="width: 65%;">
                                                     <button class="btn btn-primary" type="button" id="checkEmail" style="margin-top:2px;">전송</button>

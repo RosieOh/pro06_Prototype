@@ -43,8 +43,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                                 .requestMatchers("/", "/**","/login","/join","/emailConfrim","/java/project").permitAll()
+                                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                                 .requestMatchers("/member/mypage").hasAnyRole("USER")
                                 .anyRequest().authenticated());
 
@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/login")
                         .failureUrl("/member/loginFail")
+                        .defaultSuccessUrl("/")
                 );
 
        http

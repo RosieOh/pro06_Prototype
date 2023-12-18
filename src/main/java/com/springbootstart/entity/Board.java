@@ -30,6 +30,9 @@ public class Board extends BaseEntity {
 
     private String boardType;
 
+//    @Column(nullable = true, insertable = false, updatable = false)
+//    private String writer;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer", referencedColumnName = "mid")
     private Member member;

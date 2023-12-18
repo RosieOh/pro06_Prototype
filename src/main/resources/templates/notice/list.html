@@ -64,7 +64,7 @@
                                     <td>
                                         <a th:href="|@{/notice/read(bno =${dto.bno})}&${link}|" class="text-decoration-none" th:text="${dto.title}"></a>
                                     </td>
-                                    <td th:text="${dto.writer}"></td>
+                                    <td th:text="${#authentication.principal.name}"></td>
                                     <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd')}"></td>
                                 </tr>
                                 </tbody>

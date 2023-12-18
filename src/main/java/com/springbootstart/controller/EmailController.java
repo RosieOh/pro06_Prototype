@@ -1,6 +1,6 @@
 package com.springbootstart.controller;
 
-import com.springbootstart.service.email.EmailServiceImpl;
+import com.springbootstart.service.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

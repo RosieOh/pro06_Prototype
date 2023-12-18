@@ -1,4 +1,4 @@
-package com.springbootstart.service.board;
+package com.springbootstart.service;
 
 import com.springbootstart.dto.BoardDTO;
 import com.springbootstart.dto.PageRequestDTO;

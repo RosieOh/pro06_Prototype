@@ -36,6 +36,10 @@ public class Member extends BaseEntity {
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private MemberRole role = MemberRole.USER; // 디폴트로 USER 권한을 갖도록 초기화
+
     @OneToOne(mappedBy = "member")
     private Profile profile;
 
@@ -58,6 +62,4 @@ public class Member extends BaseEntity {
     public void addProfile(Profile profile) {
         this.profile = profile;
     }
-
-
 }

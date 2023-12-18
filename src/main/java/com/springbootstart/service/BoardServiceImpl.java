@@ -1,4 +1,4 @@
-package com.springbootstart.service.board;
+package com.springbootstart.service;
 
 import com.springbootstart.entity.Board;
 import com.springbootstart.dto.BoardDTO;
@@ -267,7 +267,16 @@ public class BoardServiceImpl implements BoardService{
     // 등록 작업 처리
     @Override
     public Long register(BoardDTO boardDTO) {
+        // BoardDTO에서 작성자 정보 가져오기
+        String writer = boardDTO.getWriter();
+
+        // Board 엔티티로 매핑
         Board board = modelMapper.map(boardDTO, Board.class);
+
+        // 작성자 정보 설정
+        board.setWriter(writer);
+
+        // 저장하고 Bno 반환
         Long bno = boardRepository.save(board).getBno();
         return bno;
     }

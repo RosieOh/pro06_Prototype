@@ -44,6 +44,8 @@ public class QMember extends EntityPathBase<Member> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDate = _super.regDate;
 
+    public final EnumPath<com.springbootstart.constant.MemberRole> role = createEnum("role", com.springbootstart.constant.MemberRole.class);
+
     public final SetPath<com.springbootstart.constant.MemberRole, EnumPath<com.springbootstart.constant.MemberRole>> roleSet = this.<com.springbootstart.constant.MemberRole, EnumPath<com.springbootstart.constant.MemberRole>>createSet("roleSet", com.springbootstart.constant.MemberRole.class, EnumPath.class, PathInits.DIRECT2);
 
     public QMember(String variable) {

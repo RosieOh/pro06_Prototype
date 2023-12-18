@@ -1,5 +1,5 @@
 package com.springbootstart.constant;
 
 public enum MemberRole {
-    USER, ADMIN, TEACHER;
+    ADMIN, TEACHER, USER;
 }

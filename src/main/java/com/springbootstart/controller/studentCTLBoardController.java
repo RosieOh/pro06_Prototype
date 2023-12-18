@@ -3,8 +3,9 @@ package com.springbootstart.controller;
 import com.springbootstart.dto.BoardDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
-import com.springbootstart.service.board.BoardService;
-import com.springbootstart.service.member.MemberService;
+import com.springbootstart.entity.Member;
+import com.springbootstart.repository.MemberRepository;
+import com.springbootstart.service.BoardService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.security.Principal;
 import java.util.List;
 
 @Log4j2
@@ -34,16 +36,22 @@ public class studentCTLBoardController {
     private BoardService boardService;
 
     @Autowired
-    private MemberService memberService;
+    private MemberRepository memberRepository;
 
     @GetMapping({"/studentctl", "/studentctl/list"})
-    public String boardListAll(PageRequestDTO pageRequestDTO, Model model) {
+    public String boardListAll(PageRequestDTO pageRequestDTO, Model model, Principal principal) {
         PageResponseDTO<BoardDTO> responseDTO = boardService.listStudentCTL(pageRequestDTO);
         List<BoardDTO> boardList = boardService.findAll();
-
+        if (principal != null) {
+            model.addAttribute("username", principal.getName());
+        }
         log.info(responseDTO);
         model.addAttribute("responseDTO", responseDTO);
         model.addAttribute("boardList", boardList);
+        String mid = principal.getName();
+        Member member = memberRepository.findByMid(mid);
+        model.addAttribute("member", member);
+        model.addAttribute("principal", principal);
         return "studentctl/list";
     }
 
@@ -56,23 +64,39 @@ public class studentCTLBoardController {
         return "studentctl/read";
     }
 
+
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/studentctl/register")
-    public String registerForm() {
+    public String registerForm(Model model, Principal principal) {
+        model.addAttribute("principal", principal);
         return "studentctl/register";
     }
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostMapping("/studentctl/register")
-    public String studentctlRegister(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String studentctlRegister(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal, Model model) {
         log.info("board POST register.......");
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             log.info("has errors..........");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
+
+        // 현재 로그인한 사용자를 작성자로 설정
+        boardDTO.setWriter(principal.getName());
+
         log.info(boardDTO);
+        log.info("Writer from principal: " + principal.getName());
+        log.info("Writer in boardDTO: " + boardDTO.getWriter());
+
+        // Null 체크 추가
+        if (boardDTO.getWriter() != null) {
+            log.info("Writer in boardDTO is not null");
+        } else {
+            log.info("Writer in boardDTO is null");
+        }
         Long bno = boardService.register(boardDTO);
+        model.addAttribute("dto", bno);
         return "redirect:/studentctl/list";
     }
 

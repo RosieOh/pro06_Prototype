@@ -1,12 +1,10 @@
 package com.springbootstart.controller;
 
 import com.springbootstart.dto.BoardDTO;
-import com.springbootstart.dto.MemberSecurityDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
-import com.springbootstart.entity.Board;
-import com.springbootstart.service.board.BoardService;
-import com.springbootstart.service.member.MemberService;
+import com.springbootstart.service.BoardService;
+import com.springbootstart.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import jakarta.validation.Valid;
@@ -19,14 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @Controller

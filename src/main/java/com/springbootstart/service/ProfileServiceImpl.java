@@ -1,4 +1,4 @@
-package com.springbootstart.service.profile;
+package com.springbootstart.service;
 
 import com.springbootstart.entity.Member;
 import com.springbootstart.entity.Profile;

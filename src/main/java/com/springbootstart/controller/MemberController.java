@@ -4,8 +4,8 @@ import com.springbootstart.dto.MemberJoinDTO;
 import com.springbootstart.entity.Member;
 import com.springbootstart.entity.Profile;
 import com.springbootstart.repository.MemberRepository;
-import com.springbootstart.service.member.MemberService;
-import com.springbootstart.service.profile.ProfileService;
+import com.springbootstart.service.MemberService;
+import com.springbootstart.service.ProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -32,8 +31,14 @@ public class MemberController {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
+//    @GetMapping("/createAdminMember")
+//    public String createAdminMember() {
+//        memberService.createAdminMember(); // 관리자 회원 생성 메서드 호출
+//        return "redirect:/"; // 적절한 리다이렉션 경로로 변경
+//    }
+
     @GetMapping("/member/login")
-    public String login(Model model) {
+    public String login(Model model, Principal principal) {
         model.addAttribute("memberJoinDTO", new MemberJoinDTO());
         return "member/login";
     }
@@ -82,9 +87,8 @@ public class MemberController {
     @GetMapping("/member/mypage")
     public String mypageForm(Principal principal, Model model){
         log.info("/mypage .........");
-
         String mid = principal.getName();
-        Member member =memberRepository.findByMid(mid);
+        Member member = memberRepository.findByMid(mid);
         Profile profile = profileService.profileByMember(member);
         System.out.println(profile);
         model.addAttribute("member", member);

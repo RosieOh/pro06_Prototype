@@ -3,7 +3,6 @@ package com.springbootstart.service;
 import com.springbootstart.dto.BoardDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
-import com.springbootstart.service.board.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

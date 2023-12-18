@@ -30,6 +30,9 @@ public class MemberJoinDTO {
     @NotBlank(message = "**")
     private String code;
 
+    @NotBlank(message = "**")
+    private String nickname;
+
     @ColumnDefault("0")
     private int active;
 
