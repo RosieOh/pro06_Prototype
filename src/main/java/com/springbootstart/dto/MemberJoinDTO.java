@@ -33,6 +33,8 @@ public class MemberJoinDTO {
     @NotBlank(message = "**")
     private String nickname;
 
+//    @NotBlank(message = "**")
+
     @ColumnDefault("0")
     private int active;
 

@@ -23,14 +23,15 @@
     <th:block th:replace="layout/head :: head"></th:block>
 </head>
 <body id="top">
+<th:block th:replace="layout/header :: header"></th:block>
 <main>
-    <th:block th:replace="layout/header :: header"></th:block>
+<!--    <th:block th:replace="layout/header :: header"></th:block>-->
 
     <section class="page-title" style="background: linear-gradient(to right, #71AEE8, #77E9CE); padding: 100px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-md-2 text-center">
-                    <h3> 공지사항 </h3>
+                    <h3> 교사 입시 포트폴리오 </h3>
                 </div>
             </div>
         </div>
@@ -80,12 +81,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
                             <li class="page-item" th:if="${responseDTO.prev}">
@@ -104,7 +99,7 @@
                 </div>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-primary" onclick="location.href='/board/register'">Add to POST</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='/teacherctl/register'">Add to POST</button>
             </div>
         </div>
     </div>
@@ -128,32 +123,81 @@
     <script th:inline="javascript">
 
         document.querySelector(".pagination").addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault()
+            e.stopPropagation()
 
-            const target = e.target;
+            const target = e.target
 
             if(target.tagName !== 'A') {
-                return;
+                return
             }
-            const num = target.getAttribute("data-num");
-            const formObj = document.querySelector("form");
-            formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`;
+            const num = target.getAttribute("data-num")
+            const formObj = document.querySelector("form")
+            formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
             formObj.submit();
-        }, false);
+        },false)
 
         document.querySelector(".clearBtn").addEventListener("click", function (e){
-            e.preventDefault();
-            e.stopPropagation();
-            self.location ='/board/list';
-        }, false);
+            e.preventDefault()
+            e.stopPropagation()
+            self.location ='/board/list'
+        },false)
 
-        // show modal
-        const result = [[${result}]];
-        const modal = new bootstrap.Modal(document.querySelector(".modal"));
+        //show modal
+        const result = [[${result}]]
+        const modal = new bootstrap.Modal(document.querySelector(".modal"))
         if(result){
-            modal.show();
+            modal.show()
         }
+    </script>
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $('#table').DataTable({
+                paging:true, //paging 처리 여부다
+                searching:true, //검색 여부
+                language: { //언어 설정
+                    paginate: {
+                        previous: "이전",
+                        next:"다음"
+                    },
+                    zeroRecords: "검색 결과가 없습니다."
+                }
+            });
+        });
+    </script>
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $('#table').DataTable({
+                paging: true, // 페이징 처리 여부
+                searching: true, // 검색 여부
+                language: { // 언어 설정
+                    paginate: {
+                        previous: "이전",
+                        next: "다음"
+                    },
+                    zeroRecords: "검색 결과가 없습니다."
+                },
+                initComplete: function () {
+                    // 'NOTICE' boardType에 대한 사용자 정의 필터 추가
+                    this.api().columns(3).every(function () {
+                        var column = this;
+                        $('<select class="form-select"><option value="">전체</option><option value="NOTICE">공지사항</option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+                    });
+                }
+            });
+        });
     </script>
 </main>
 

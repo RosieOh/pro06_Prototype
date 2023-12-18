@@ -6,7 +6,7 @@
         <div class="container">
             <a class="navbar-brand" th:href="@{/}">
                 <i class="bi-back"></i>
-                <span>교수학습지원센터</span>
+                <span style="color: #fff">교수학습지원센터</span>
             </a>
 
             <div class="d-lg-none ms-auto me-4">
@@ -17,27 +17,39 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 200px;">
+            <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 120px; margin-right: 50px;">
                 <ul class="navbar-nav ms-lg-5 me-lg-auto">
                     <li class="nav-item">
                         <a class="nav-link click-scroll" th:href="@{/}">Home</a>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">학생</a>
                         <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                            <li><a class="dropdown-item" href="topics-listing.html">Topics Listing</a></li>
-                            <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
+                            <li><a class="dropdown-item" th:href="@{/studentctl/list}">학생 E-PortFolio</a></li>
+                            <li><a class="dropdown-item" th:href="@{/studententrance/list}">학생 교수학습자료실</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink2" role="button" data-bs-toggle="dropdown" aria-expanded="false">교사</a>
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                            <li><a class="dropdown-item" th:href="@{/teacherctl/list}">교사 E-PortFolio</a></li>
+                            <li><a class="dropdown-item" th:href="@{/teacherentrance/list}">교사 교수학습자료실</a></li>
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link click-scroll" href="#section_5">Contact</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink3" role="button" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                            <li><a class="dropdown-item" th:href="@{/faq/list}">자주 묻는 질문</a></li>
+                            <li><a class="dropdown-item" th:href="@{/qna/list}">질문 및 답변</a></li>
+                            <li><a class="dropdown-item" th:href="@{/contact}">Contact</a></li>
+                        </ul>
                     </li>
                 </ul>
 
 
-                <ul class="navbar-nav ml-auto mt-10">
+                <ul class="navbar-nav ml-auto mt-10" >
                     <th:block sec:authorize="isAnonymous()">
                         <li class="nav-item">
                             <a class="nav-link text-white add-button" th:href="@{/member/join}">회원가입</a>
@@ -54,10 +66,10 @@
                             <a th:href="@{/member/memberUpdate(id=${member.mname})}" class="nav-link text-white add-button">수정</a>
                         </li>
                         <li class="nav-item" th:if="${member != null}">
-        <span class="nav-link text-white">
-            <span th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'', ''ROLE_TEACHER'', ''ROLE_USER'')')}" style="display:none"></span>
-            <span th:text="${#authentication.principal.mname}"></span>님 환영합니다!
-        </span>
+                            <span class="nav-link text-white">
+<!--                                <span th:if="${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'', ''ROLE_TEACHER'', ''ROLE_USER'')')}" style="display:none"></span>-->
+                                <span th:text="${#authentication.principal.mname}"></span>님 환영합니다!
+                            </span>
                         </li>
                         <li class="nav-item">
                             <form th:action="@{/logout}" method="post">

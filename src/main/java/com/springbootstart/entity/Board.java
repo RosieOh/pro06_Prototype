@@ -1,10 +1,8 @@
 package com.springbootstart.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,17 +28,19 @@ public class Board extends BaseEntity {
 
     private String boardType;
 
-//    @Column(nullable = true, insertable = false, updatable = false)
-//    private String writer;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer", referencedColumnName = "mid")
-    private Member member;
+    private String writer;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @BatchSize(size = 20)
     private Set<BoardImage> imageSet = new HashSet<>();
+
+
+    public void create(String title, String content,String writer) {
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+    }
 
     public void change(String title, String content) {
         this.title = title;

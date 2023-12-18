@@ -7,6 +7,7 @@ import com.springbootstart.entity.Member;
 import com.springbootstart.repository.MemberRepository;
 import com.springbootstart.service.BoardService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,16 +28,15 @@ import java.util.List;
 
 @Log4j2
 @Controller
+@RequiredArgsConstructor
 public class studentCTLBoardController {
 
     @Value("${upload.path}")
     private String uploadPath;
 
-    @Autowired
-    private BoardService boardService;
+    private final BoardService boardService;
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     @GetMapping({"/studentctl", "/studentctl/list"})
     public String boardListAll(PageRequestDTO pageRequestDTO, Model model, Principal principal) {
@@ -69,6 +69,9 @@ public class studentCTLBoardController {
     @GetMapping("/studentctl/register")
     public String registerForm(Model model, Principal principal) {
         model.addAttribute("principal", principal);
+        String mid = principal.getName();
+        Member member = memberRepository.findByMid(mid);
+        model.addAttribute("writer", member.getMname());
         return "studentctl/register";
     }
 
@@ -76,27 +79,12 @@ public class studentCTLBoardController {
     @PostMapping("/studentctl/register")
     public String studentctlRegister(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal, Model model) {
         log.info("board POST register.......");
-
+        log.info("이름 어디 갔노" + boardDTO.getWriter());
         if (bindingResult.hasErrors()) {
             log.info("has errors..........");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
-
-        // 현재 로그인한 사용자를 작성자로 설정
-        boardDTO.setWriter(principal.getName());
-
-        log.info(boardDTO);
-        log.info("Writer from principal: " + principal.getName());
-        log.info("Writer in boardDTO: " + boardDTO.getWriter());
-
-        // Null 체크 추가
-        if (boardDTO.getWriter() != null) {
-            log.info("Writer in boardDTO is not null");
-        } else {
-            log.info("Writer in boardDTO is null");
-        }
-        Long bno = boardService.register(boardDTO);
-        model.addAttribute("dto", bno);
+        boardService.register(boardDTO);
         return "redirect:/studentctl/list";
     }
 

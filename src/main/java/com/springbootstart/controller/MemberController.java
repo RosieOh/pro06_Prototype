@@ -31,11 +31,6 @@ public class MemberController {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-//    @GetMapping("/createAdminMember")
-//    public String createAdminMember() {
-//        memberService.createAdminMember(); // 관리자 회원 생성 메서드 호출
-//        return "redirect:/"; // 적절한 리다이렉션 경로로 변경
-//    }
 
     @GetMapping("/member/login")
     public String login(Model model, Principal principal) {

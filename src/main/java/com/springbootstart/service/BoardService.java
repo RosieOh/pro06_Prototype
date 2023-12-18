@@ -11,7 +11,7 @@ public interface BoardService {
 
     public BoardDTO findByBno(Long bno, String boardType);
     public List<BoardDTO> findAll();
-    public Long register(BoardDTO boardDTO);
+    public void register(BoardDTO boardDTO);
     public void modify(BoardDTO boardDTO);
     public void remove(Long bno);
 

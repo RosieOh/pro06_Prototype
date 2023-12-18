@@ -37,59 +37,6 @@ public class BoardController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("/api/list")
-    @ResponseBody
-    public List<BoardDTO> listAll() {
-        List<BoardDTO> boardList = boardService.findAll();
-        return boardList;
-    }
-
-    @GetMapping("/api/read")
-    @ResponseBody
-    public BoardDTO findByBno(Long bno, String boardType) {
-        BoardDTO board = boardService.findByBno(bno, boardType) ;
-        return board;
-    }
-
-    @PostMapping("/api/register")
-    @ResponseBody
-    public Long apiboardWrite(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        log.info("board POST register...");
-        if(bindingResult.hasErrors()) {
-            log.info("has errors......");
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-        }
-        Long bno = boardService.register(boardDTO);
-        return bno;
-    }
-
-    @PostMapping("/api/modify")
-    @ResponseBody
-    public BoardDTO modifyPro(@Valid BoardDTO boardDTO,
-                              BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
-        log.info("board modify post........" + boardDTO);
-        if(bindingResult.hasErrors()) {
-            log.info("has errors.........");
-            String link = "bno="+boardDTO.getBno();
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            redirectAttributes.addAttribute("bno", boardDTO.getBno());
-            return boardDTO;
-        }
-        boardService.modify(boardDTO);
-        redirectAttributes.addFlashAttribute("result", "modified");
-        redirectAttributes.addFlashAttribute("bno", boardDTO.getBno());
-        return boardDTO;
-    }
-
-    @PostMapping("/api/remove")
-    public String remove(Long bno, RedirectAttributes redirectAttributes) {
-        log.info("remove post....." + bno);
-        boardService.remove(bno);
-        redirectAttributes.addFlashAttribute("result", "removed");
-        return "redirect:/apiboard/list";
-    }
-
     @GetMapping({"/board", "/board/list"})
     public String boardListAll(PageRequestDTO pageRequestDTO, Model model) {
         PageResponseDTO<BoardDTO> responseDTO = boardService.listNotice(pageRequestDTO);
@@ -123,8 +70,7 @@ public class BoardController {
             log.info("has errors..........");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
-        log.info(boardDTO);
-        Long bno = boardService.register(boardDTO);
+        log.info(boardDTO);;
         return "redirect:/board/list";
     }
 

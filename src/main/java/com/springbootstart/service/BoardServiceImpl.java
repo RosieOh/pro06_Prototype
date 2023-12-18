@@ -266,19 +266,18 @@ public class BoardServiceImpl implements BoardService{
 
     // 등록 작업 처리
     @Override
-    public Long register(BoardDTO boardDTO) {
+    public void register(BoardDTO boardDTO) {
         // BoardDTO에서 작성자 정보 가져오기
         String writer = boardDTO.getWriter();
-
+        log.info("이름 확인 : " + writer);
         // Board 엔티티로 매핑
         Board board = modelMapper.map(boardDTO, Board.class);
 
-        // 작성자 정보 설정
         board.setWriter(writer);
 
         // 저장하고 Bno 반환
         Long bno = boardRepository.save(board).getBno();
-        return bno;
+
     }
 
     // 수정 작업 처리

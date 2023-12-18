@@ -74,8 +74,6 @@ public class QnaController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
         log.info(boardDTO);
-        Long bno = boardService.register(boardDTO);
-        model.addAttribute("dto", bno);
         return "redirect:/qna/list";
     }
 

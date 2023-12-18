@@ -81,7 +81,6 @@ public class NoticeController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
         log.info(boardDTO);
-        Long bno = boardService.register(boardDTO);
         return "redirect:/notice/list";
     }
 

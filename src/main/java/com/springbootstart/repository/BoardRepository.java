@@ -15,8 +15,8 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch
     @Query("SELECT b FROM Board b WHERE b.bno = :bno AND b.boardType = :boardType")
     Optional<Board> findById(@Param("bno") Long bno, @Param("boardType") String boardType);
 
-    @Query("SELECT b, m.mname as writer FROM Board b LEFT JOIN b.member m WHERE b.bno = :bno AND b.boardType = :boardType")
-    Optional<Object[]> findByIdAndBoardType(@Param("bno") Long bno, @Param("boardType") String boardType);
+//    @Query("SELECT b, m.mname as writer FROM Board b LEFT JOIN b.member m WHERE b.bno = :bno AND b.boardType = :boardType")
+//    Optional<Object[]> findByIdAndBoardType(@Param("bno") Long bno, @Param("boardType") String boardType);
 
     @Query("SELECT b FROM Board b WHERE " +
             "(:keyword is null or b.title like %:keyword% or b.content like %:keyword%) " +
