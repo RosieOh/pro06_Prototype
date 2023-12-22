@@ -1,11 +1,14 @@
 package com.springbootstart.controller;
 
 import com.springbootstart.dto.BoardDTO;
+import com.springbootstart.dto.FileDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
 import com.springbootstart.entity.Member;
 import com.springbootstart.repository.MemberRepository;
 import com.springbootstart.service.BoardService;
+import com.springbootstart.service.FileService;
+import com.springbootstart.util.MD5Generator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
@@ -37,35 +42,37 @@ public class teacherEntranceBoardController {
 
     private final MemberRepository memberRepository;
 
-    @GetMapping({"/teacherentance", "/teacherentrace/list"})
-    public String boardListAll(PageRequestDTO pageRequestDTO, Model model, Principal principal) {
-        PageResponseDTO<BoardDTO> responseDTO = boardService.listStudentCTL(pageRequestDTO);
-        List<BoardDTO> boardList = boardService.findAll();
+    private final FileService fileService;
+
+    @GetMapping({"/teacherentrance", "/teacherentrance/list"})
+    public String boardListAll(Model model, Principal principal) {
+        String boardType = "TeacherEntrace";
+        List<BoardDTO> boardList = boardService.findByBoardType(boardType);
         if (principal != null) {
             model.addAttribute("username", principal.getName());
         }
-        log.info(responseDTO);
-        model.addAttribute("responseDTO", responseDTO);
         model.addAttribute("boardList", boardList);
         String mid = principal.getName();
         Member member = memberRepository.findByMid(mid);
         model.addAttribute("member", member);
         model.addAttribute("principal", principal);
-        return "teacherentrace/list";
+        return "teacherentrance/list";
     }
-
-    @PreAuthorize("hasAnyRole('USER')")
-    @GetMapping("/teacherentrance/read")
-    public String readTeacherentrace(Long bno, String boardType, PageRequestDTO pageRequestDTO, Model model) {
-        BoardDTO boardDTO = boardService.findByBno(bno, boardType);
-        log.info(boardDTO);
-        model.addAttribute("dto", boardDTO);
-        return "teacherentrace/read";
-    }
-
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    @GetMapping("/teacherentrace/register")
+    @GetMapping("/teacherentrance/read")
+    public String readTeacherentrance(Long bno, Long id, Model model) {
+        BoardDTO boardDTO = boardService.findByBno(bno);
+        FileDTO fileDTO = fileService.getFile(boardDTO.getFileId());
+        log.info("고도리 해보자고~~~~ : " + boardDTO);
+        log.info("요것도 고도리 해보자고~~~ : " + fileDTO);
+        model.addAttribute("fileList", fileDTO);
+        model.addAttribute("boardList", boardDTO);
+        return "teacherentrance/read";
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @GetMapping("/teacherentrance/register")
     public String registerForm(Model model, Principal principal) {
         model.addAttribute("principal", principal);
         String mid = principal.getName();
@@ -76,20 +83,50 @@ public class teacherEntranceBoardController {
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostMapping("/teacherentrance/register")
-    public String studentctlRegister(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal, Model model) {
+    public String teacherentranceRegister(@Valid BoardDTO boardDTO,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes,
+                                 Principal principal,
+                                 Model model,
+                                 @RequestParam("file") MultipartFile files) {
         log.info("board POST register.......");
         log.info("이름 어디 갔노" + boardDTO.getWriter());
         if (bindingResult.hasErrors()) {
             log.info("has errors..........");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
-        boardService.register(boardDTO);
+        try {
+            String originFilename = files.getOriginalFilename();
+            String filename = new MD5Generator(originFilename).toString();
+            String savePath = System.getProperty("user.dir") + "\\files";
+            if(!new File(savePath).exists()) {
+                try {
+                    new File(savePath).mkdirs();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            String filePath = savePath + "\\" + filename;
+            files.transferTo(new File(filePath));
+
+            FileDTO fileDTO = new FileDTO();
+            fileDTO.setOriginFilename(originFilename);
+            fileDTO.setFilename(filename);
+            fileDTO.setFilePath(filePath);
+
+            Long fileId = fileService.saveFile(fileDTO);
+            boardDTO.setFileId(fileId);
+            boardService.register(boardDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/teacherentrance/list";
     }
 
     @GetMapping("/teacherentrance/modify")
-    public String modifyForm(Long bno, String boardType, Model model) {
-        BoardDTO boardDTO = boardService.findByBno(bno, boardType);
+    public String modifyForm(Long bno, Model model) {
+        BoardDTO boardDTO = boardService.findByBno(bno);
         model.addAttribute("dto", boardDTO);
         return "teacherentrance/modify";
     }
@@ -97,10 +134,8 @@ public class teacherEntranceBoardController {
     @PostMapping("/teacherentrance/modify")
     public String modify(@Valid BoardDTO boardDTO,
                          BindingResult bindingResult,
-                         PageRequestDTO pageRequestDTO,
                          RedirectAttributes redirectAttributes) {
         if(bindingResult.hasErrors()) {
-            String link = pageRequestDTO.getLink();
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("bno", boardDTO.getBno());
         }

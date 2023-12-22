@@ -27,14 +27,12 @@ public class FaqController {
 
     // 리스트만 불러오고 테스트 DB로 해결하는 걸로
     @GetMapping({"/faq", "/faq/list"})
-    public String FaqListAll(PageRequestDTO pageRequestDTO, Model model, Principal principal) {
-        PageResponseDTO<BoardDTO> responseDTO = boardService.listNotice(pageRequestDTO);
-        List<BoardDTO> boardList = boardService.findAll();
+    public String FaqListAll(Model model, Principal principal) {
+        String boardType = "FAQ";
+        List<BoardDTO> boardList = boardService.findByBoardType(boardType);
         if (principal != null) {
             model.addAttribute("username", principal.getName());
         }
-        log.info(responseDTO);
-        model.addAttribute("responseDTO", responseDTO);
         model.addAttribute("boardList", boardList);
         String mid = principal.getName();
         Member member = memberRepository.findByMid(mid);

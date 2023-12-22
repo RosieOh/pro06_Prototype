@@ -30,6 +30,9 @@ public class Board extends BaseEntity {
 
     private String writer;
 
+    @Column
+    private Long fileId;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @BatchSize(size = 20)
@@ -45,5 +48,14 @@ public class Board extends BaseEntity {
     public void change(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    @Builder
+    public Board(Long bno, String title, String content, String writer, Long fileId) {
+        this.bno = bno;
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+        this.fileId = fileId;
     }
 }

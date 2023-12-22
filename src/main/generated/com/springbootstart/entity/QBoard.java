@@ -28,6 +28,8 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final StringPath content = createString("content");
 
+    public final NumberPath<Long> fileId = createNumber("fileId", Long.class);
+
     public final SetPath<BoardImage, QBoardImage> imageSet = this.<BoardImage, QBoardImage>createSet("imageSet", BoardImage.class, QBoardImage.class, PathInits.DIRECT2);
 
     //inherited

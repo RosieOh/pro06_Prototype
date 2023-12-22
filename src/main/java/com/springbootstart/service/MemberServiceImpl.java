@@ -51,6 +51,7 @@ public class MemberServiceImpl implements MemberService{
                     .email("admin@naver.com")
                     .active(1)
                     .roleSet(Collections.singleton(MemberRole.ADMIN))
+                    .role(MemberRole.valueOf("ADMIN"))
                     .build();
 
             memberRepository.save(admin);

@@ -1,6 +1,7 @@
 package com.springbootstart.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -28,6 +29,9 @@ public class BoardDTO {
     @Size(max = 50)
     private String boardType;
 
+    @NotNull
+    private Long fileId;
+
     @NotEmpty
     @Size(max = 50)
     private String writer;
@@ -37,4 +41,15 @@ public class BoardDTO {
     private LocalDateTime modDate;
 
     private List<String> fileNames;
+
+    // Getter 메서드
+    public Long getBno() {
+        return bno;
+    }
+
+    // Setter 메서드 (필요에 따라)
+    public void setBno(Long bno) {
+        this.bno = bno;
+    }
+
 }

@@ -31,7 +31,7 @@
         <div class="container" data-aos="fade-up">
             <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
                 <div class="pricing-item featured" style="padding:0;">
-                    <form th:action="@{/studentctl/register}" method="post">
+                    <form th:action="@{/studentctl/register}" method="post" enctype="multipart/form-data">
 <!--                        <h1 th:text="${principal}"></h1>-->
                         <div class="col-12">
                             <div class="card w-100">
@@ -48,9 +48,6 @@
                                                     <div id="editor">
                                                         <textarea name="content" id="myTextarea" rows="8" maxlength="1000" class="form-control" style="height: 200px; border: 1px solid #cbcbcb"></textarea>
                                                     </div>
-                                                    <!--                                                    <script>-->
-                                                    <!--                                                        CKEDITOR.replace('content',	{filebrowserUploadUrl:'/notice/imageUpload.do'});-->
-                                                    <!--                                                    </script>-->
                                                     <script>
                                                         const Editor = toastui.Editor;
                                                         const textarea = document.querySelector('#myTextarea');
@@ -82,15 +79,15 @@
                                                     <option value="StudentCTL" th:selected="${boardType == 'StudentCTL'}">학생 입시 게시판</option>
                                                 </select>
                                             </div>
-                                            <div class="btn-group float-right mr-3" style="float:right;">
-                                                <input type="submit" id="btn" class="btn btn-dark" style="height: 100%; " value="등록">
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text">첨부파일</span>
+                                                <input type="file" class="form-control" name="file">
                                             </div>
-<!--                                            <div class="form-group">-->
-<!--                                                <label for="writer">작성자</label>-->
-<!--                                                <input type="text" class="form-control" id="writer" name="writer" th:value="${#authentication.principal.mname}" readonly>-->
-<!--                                            </div>-->
                                             <input type="text" class="form-control" id="writer" name="writer" th:value="${writer}" readonly>
                                         </table>
+                                        <div class="btn-group float-right mr-3" style="float:right;">
+                                            <input type="submit" id="btn" class="btn btn-dark" style="height: 100%; " value="등록">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -107,42 +104,12 @@
             </div>
         </div>
     </div>
-
-    <div class="modal uploadModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Upload File</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <input type="file" name="files" class="form-control" multiple >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary uploadBtn">Upload</button>
-                    <button type="button" class="btn btn-outline-dark closeUploadBtn" >Close</button>
-                </div>
-            </div>
-        </div>
-    </div><!-- register modal -->
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <script src="/js/upload.js"></script>
-
-    </div><!-- layout fragment end -->
-
-
     <script th:inline="javascript">
-
         const errors = [[${errors}]]
         console.log(errors)
-
         let errorMsg = ''
-
         if(errors){
             for (let i = 0; i < errors.length; i++) {
                 errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
@@ -152,16 +119,11 @@
 
         //업로드 모달
         const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
-
         document.querySelector(".uploadFileBtn").addEventListener("click", function(e){
-
             e.stopPropagation()
             e.preventDefault()
             uploadModal.show()
-
         }, false)
-
-
         document.querySelector(".uploadBtn").addEventListener("click", function(e){
 
             const formObj = new FormData();

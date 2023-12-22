@@ -48,6 +48,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final SetPath<com.springbootstart.constant.MemberRole, EnumPath<com.springbootstart.constant.MemberRole>> roleSet = this.<com.springbootstart.constant.MemberRole, EnumPath<com.springbootstart.constant.MemberRole>>createSet("roleSet", com.springbootstart.constant.MemberRole.class, EnumPath.class, PathInits.DIRECT2);
 
+    public final StringPath school = createString("school");
+
     public QMember(String variable) {
         this(Member.class, forVariable(variable), INITS);
     }

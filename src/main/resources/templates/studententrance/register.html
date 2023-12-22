@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Topic Listing Bootstrap 5 Template</title>
-    <th:block th:replace="~{layout/head :: head}"></th:block>
+    <title>학생 교수 학습 자료실</title>
+    <th:block th:replace="layout/head :: head"></th:block>
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -21,7 +21,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-md-2 text-center">
-                    <h3> 공지사항 </h3>
+                    <h3> 학생 교수 학습 자료실 </h3>
                 </div>
             </div>
         </div>
@@ -31,17 +31,12 @@
         <div class="container" data-aos="fade-up">
             <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
                 <div class="pricing-item featured" style="padding:0;">
-                    <form th:action="@{/board/register}" method="post">
+                    <form th:action="@{/studententrance/register}" method="post" enctype="multipart/form-data">
                         <div class="col-12">
                             <div class="card w-100">
                                 <div class="card-body">
                                     <div class="table-responsive project-list">
-                                        <!-- Added border attribute to the table -->
                                         <table class="table project-table table-centered table-nowrap" style="border: none;">
-                                            <!--                                            <div class="input-group mb-3" th:if="${boardType == 'NOTICE'}">-->
-                                            <!--                                                <select name="boardType" id="boardType">-->
-                                            <!--                                                    <option value="NOTICE">공지사항</option>-->
-                                            <!--                                                </select>-->
                                             <tbody>
                                             <tr>
                                                 <td style="border: none;"><input type="text" id="title" name="title" placeholder="제목을 입력하세요" class="form-control" required></td>
@@ -51,9 +46,6 @@
                                                     <div id="editor">
                                                         <textarea name="content" id="myTextarea" rows="8" maxlength="1000" class="form-control" style="height: 200px; border: 1px solid #cbcbcb"></textarea>
                                                     </div>
-                                                    <!--                                                    <script>-->
-                                                    <!--                                                        CKEDITOR.replace('content',	{filebrowserUploadUrl:'/notice/imageUpload.do'});-->
-                                                    <!--                                                    </script>-->
                                                     <script>
                                                         const Editor = toastui.Editor;
                                                         const textarea = document.querySelector('#myTextarea');
@@ -82,13 +74,18 @@
                                             </tbody>
                                             <div class="input-group mb-3">
                                                 <select name="boardType" id="boardType">
-                                                    <option value="NOTICE" th:selected="${boardType == 'NOTICE'}">공지사항</option>
+                                                    <option value="StudentEntrace" th:selected="${boardType == 'StudentEntrace'}">학생 교수 학습 게시판</option>
                                                 </select>
                                             </div>
-                                            <div class="btn-group float-right mr-3" style="float:right;">
-                                                <input type="submit" id="btn" class="btn btn-dark" style="height: 100%; " value="등록">
-                                            </div>
+                                            <input type="text" class="form-control" id="writer" name="writer" th:value="${writer}" readonly>
                                         </table>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">첨부파일</span>
+                                            <input type="file" class="form-control" name="file">
+                                        </div>
+                                        <div class="btn-group float-right mr-3" style="float:right;">
+                                            <input type="submit" id="btn" class="btn btn-dark" style="height: 100%; " value="등록">
+                                        </div>
                                     </div>
                                 </div>
                             </div>

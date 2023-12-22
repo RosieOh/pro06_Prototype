@@ -1,11 +1,14 @@
 package com.springbootstart.controller;
 
 import com.springbootstart.dto.BoardDTO;
+import com.springbootstart.dto.FileDTO;
 import com.springbootstart.dto.PageRequestDTO;
 import com.springbootstart.dto.PageResponseDTO;
 import com.springbootstart.entity.Member;
 import com.springbootstart.repository.MemberRepository;
 import com.springbootstart.service.BoardService;
+import com.springbootstart.service.FileService;
+import com.springbootstart.util.MD5Generator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
@@ -38,15 +43,15 @@ public class studentCTLBoardController {
 
     private final MemberRepository memberRepository;
 
+    private final FileService fileService;
+
     @GetMapping({"/studentctl", "/studentctl/list"})
     public String boardListAll(PageRequestDTO pageRequestDTO, Model model, Principal principal) {
-        PageResponseDTO<BoardDTO> responseDTO = boardService.listStudentCTL(pageRequestDTO);
-        List<BoardDTO> boardList = boardService.findAll();
+        String boardType = "StudentCTL";
+        List<BoardDTO> boardList = boardService.findByBoardType(boardType);
         if (principal != null) {
             model.addAttribute("username", principal.getName());
         }
-        log.info(responseDTO);
-        model.addAttribute("responseDTO", responseDTO);
         model.addAttribute("boardList", boardList);
         String mid = principal.getName();
         Member member = memberRepository.findByMid(mid);
@@ -55,12 +60,15 @@ public class studentCTLBoardController {
         return "studentctl/list";
     }
 
-    @PreAuthorize("hasAnyRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/studentctl/read")
-    public String readStudentctl(Long bno, String boardType, PageRequestDTO pageRequestDTO, Model model) {
-        BoardDTO boardDTO = boardService.findByBno(bno, boardType);
+    public String readStudentctl(Long bno, Model model) {
+        BoardDTO boardDTO = boardService.findByBno(bno);
+        FileDTO fileDTO = fileService.getFile(boardDTO.getFileId());
         log.info(boardDTO);
-        model.addAttribute("dto", boardDTO);
+        log.info(fileDTO.toString());
+        model.addAttribute("fileList", fileDTO);
+        model.addAttribute("boardList", boardDTO);
         return "studentctl/read";
     }
 
@@ -77,20 +85,50 @@ public class studentCTLBoardController {
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostMapping("/studentctl/register")
-    public String studentctlRegister(@Valid BoardDTO boardDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal, Model model) {
+    public String studentctlRegister(@Valid BoardDTO boardDTO,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes,
+                                 Principal principal,
+                                 Model model,
+                                 @RequestParam("file") MultipartFile files) {
         log.info("board POST register.......");
         log.info("이름 어디 갔노" + boardDTO.getWriter());
         if (bindingResult.hasErrors()) {
             log.info("has errors..........");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
-        boardService.register(boardDTO);
+        try {
+            String originFilename = files.getOriginalFilename();
+            String filename = new MD5Generator(originFilename).toString();
+            String savePath = System.getProperty("user.dir") + "\\files";
+            if(!new File(savePath).exists()) {
+                try {
+                    new File(savePath).mkdirs();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            String filePath = savePath + "\\" + filename;
+            files.transferTo(new File(filePath));
+
+            FileDTO fileDTO = new FileDTO();
+            fileDTO.setOriginFilename(originFilename);
+            fileDTO.setFilename(filename);
+            fileDTO.setFilePath(filePath);
+
+            Long fileId = fileService.saveFile(fileDTO);
+            boardDTO.setFileId(fileId);
+            boardService.register(boardDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/studentctl/list";
     }
 
     @GetMapping("/studentctl/modify")
-    public String modifyForm(Long bno, String boardType, Model model) {
-        BoardDTO boardDTO = boardService.findByBno(bno, boardType);
+    public String modifyForm(Long bno, Model model) {
+        BoardDTO boardDTO = boardService.findByBno(bno);
         model.addAttribute("dto", boardDTO);
         return "studentctl/modify";
     }
@@ -98,10 +136,8 @@ public class studentCTLBoardController {
     @PostMapping("/studentctl/modify")
     public String modify(@Valid BoardDTO boardDTO,
                          BindingResult bindingResult,
-                         PageRequestDTO pageRequestDTO,
                          RedirectAttributes redirectAttributes) {
         if(bindingResult.hasErrors()) {
-            String link = pageRequestDTO.getLink();
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("bno", boardDTO.getBno());
         }

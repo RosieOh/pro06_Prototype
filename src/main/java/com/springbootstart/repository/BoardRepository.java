@@ -12,18 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch {
-    @Query("SELECT b FROM Board b WHERE b.bno = :bno AND b.boardType = :boardType")
-    Optional<Board> findById(@Param("bno") Long bno, @Param("boardType") String boardType);
+    @Query("SELECT b FROM Board b WHERE b.bno = :bno")
+    Optional<Board> findById(@Param("bno") Long bno);
 
-//    @Query("SELECT b, m.mname as writer FROM Board b LEFT JOIN b.member m WHERE b.bno = :bno AND b.boardType = :boardType")
-//    Optional<Object[]> findByIdAndBoardType(@Param("bno") Long bno, @Param("boardType") String boardType);
+    @Query("SELECT b FROM Board b WHERE b.boardType = :boardType")
+    List<Board> findByBoardType(@Param("boardType") String boardType);
 
-    @Query("SELECT b FROM Board b WHERE " +
-            "(:keyword is null or b.title like %:keyword% or b.content like %:keyword%) " +
-            "AND (:types is null or b.boardType in :types)")
-    Page<Board> searchAll(@Param("types") String[] types,
-                          @Param("keyword") String keyword,
-                          Pageable pageable);
 
     // 새로운 메서드 추가
     Page<Board> findByBoardType(String boardType, Pageable pageable);

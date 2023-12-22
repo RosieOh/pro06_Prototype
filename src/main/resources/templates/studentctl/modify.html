@@ -1,11 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <title>학생 E-PortFolio 수정하기</title>
+    <th:block th:replace="~{layout/head :: head}"></th:block>
+
 </head>
-<body>
+<body id="top">
+<main>
+    <th:block th:replace="layout/header :: header"></th:block>
+
+    <section class="page-title" style="background: linear-gradient(to right, #71AEE8, #77E9CE); padding: 100px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <h3> 학생 E-PortFolio 수정하기 </h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--contens 필수-->
+    <div class="contents">
+        <div class="container ">
+            <!--상품 관리-->
+            <h2 class="page_tit">학생 E-PortFolio 수정하기</h2>
+            <div class="col-md-11 order-details">
+                <form th:action="@{/studentctl/modify}" method="post">
+                    <div class="section-title">
+                        <h3 class="title">공지사항 제목</h3>
+                    </div>
+                    <div class="form-group">
+                        <input class="input" id="title" type="text" th:field="*{dto.title}" required placeholder="제목">
+                        <input class="input" id="bno" type="hidden" th:field="*{dto.bno}" required placeholder="bno">
+                    </div>
+                    <div class="section-title">
+                        <h3 class="title">공지사항 내용</h3>
+                    </div>
+                    <div class="order-notes">
+                        <textarea class="input" id="content" type="text" th:utext="${dto.content}" required th:name="content" placeholder="내용"></textarea>
+                    </div>
+                    <div class="btn_group">
+                        <input type="submit" value="수정하기" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block th:replace="layout/footer :: footer"></th:block>
 
 </body>
 </html>

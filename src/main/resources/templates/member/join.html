@@ -30,6 +30,15 @@
             }
         });
     </script>
+    <section class="page-title" style="background: linear-gradient(to right, #71AEE8, #77E9CE); padding: 100px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <h3> 회원가입 </h3>
+                </div>
+            </div>
+        </div>
+    </section>
     <div class="section">
         <div class="container">
             <div class="row full-height justify-content-center">
@@ -71,6 +80,10 @@
                                                 <div class="mb-3">
                                                     <input type="password" th:field="*{passwordConfirm}" class="form-control" placeholder="비밀번호 확인" autocomplete="off">
                                                     <p th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="fieldError">Incorrect data</p>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" th:field="*{school}" class="form-control" placeholder="학교를 입력해주시길 바랍니다." autocomplete="off">
+                                                    <p th:if="${#fields.hasErrors('school')}" th:errors="*{school}" class="fieldError">Incorrect Data</p>
                                                 </div>
                                                 <button type="submit" id="submit" class="btn btn-primary mt-4">가입</button>
                                             </form>
