@@ -119,7 +119,7 @@
 
                                         <div class="card-text mt-4" th:if="${boardList.fileId}">
                                             <strong>첨부파일 : </strong>
-                                            <a th:href="@{'/downloads/' + ${fileList.filePath}}">[[${fileList.originFilename}]]</a>
+                                            <a th:href="@{'/download/' + ${boardList.fileId}}">[[${fileList.originFilename}]]</a>
                                         </div>
                                     </div>
                                 </div>

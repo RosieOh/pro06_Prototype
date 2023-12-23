@@ -1,5 +1,6 @@
 package com.springbootstart.dto;
 
+import com.springbootstart.entity.Board;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -51,5 +52,19 @@ public class BoardDTO {
     public void setBno(Long bno) {
         this.bno = bno;
     }
+
+//    public Board toEntity() {
+//        Board build = Board.builder()
+//                .bno(bno)
+//                .title(title)
+//                .content(content)
+//                .writer(writer)
+//                .fileId(fileId)
+//                .boardType(boardType)
+//                .build();
+//        return build;
+//    }
+
+
 
 }

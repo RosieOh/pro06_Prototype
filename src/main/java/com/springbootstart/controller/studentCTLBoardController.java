@@ -15,19 +15,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
 
@@ -71,6 +79,17 @@ public class studentCTLBoardController {
         model.addAttribute("boardList", boardDTO);
         return "studentctl/read";
     }
+
+//    @GetMapping("/download/{fileId}")
+//    public ResponseEntity<Resource> studentctlfileDownload(@PathVariable("fileId") Long fileId) throws IOException {
+//        FileDTO fileDto = fileService.getFile(fileId);
+//        Path path = Paths.get(fileDto.getFilePath());
+//        Resource resource = new InputStreamResource(Files.newInputStream(path));
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType("application/octet-stream"))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDto.getOriginFilename() + "\"")
+//                .body(resource);
+//    }
 
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
