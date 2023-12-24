@@ -82,17 +82,6 @@ public class NoticeController {
         return "notice/read";
     }
 
-//    @GetMapping("/download/{fileId}")
-//    public ResponseEntity<Resource> noticefileDownload(@PathVariable("fileId") Long fileId) throws IOException {
-//        FileDTO fileDto = fileService.getFile(fileId);
-//        Path path = Paths.get(fileDto.getFilePath());
-//        Resource resource = new InputStreamResource(Files.newInputStream(path));
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType("application/octet-stream"))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDto.getOriginFilename() + "\"")
-//                .body(resource);
-//    }
-
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/notice/register")
@@ -119,7 +108,8 @@ public class NoticeController {
         try {
             String originFilename = files.getOriginalFilename();
             String filename = new MD5Generator(originFilename).toString();
-            String savePath = System.getProperty("user.dir") + "\\files";
+            String savePath = System.getProperty("user.dir") + "/files/";
+            log.info("어디로 가니?  " + savePath);
             if(!new File(savePath).exists()) {
                 try {
                     new File(savePath).mkdirs();
@@ -128,7 +118,8 @@ public class NoticeController {
                     e.printStackTrace();
                 }
             }
-            String filePath = savePath + "\\" + filename;
+            String filePath = savePath + filename;
+
             files.transferTo(new File(filePath));
 
             FileDTO fileDTO = new FileDTO();
