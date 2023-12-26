@@ -64,7 +64,7 @@ public class teacherEntranceBoardController {
         return "teacherentrance/list";
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
     @GetMapping("/teacherentrance/read")
     public String readTeacherentrance(Long bno, Long id, Model model) {
         BoardDTO boardDTO = boardService.findByBno(bno);

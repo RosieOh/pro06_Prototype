@@ -132,18 +132,17 @@ public class studentEntranceController {
     }
 
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/studententrance/modify")
-    private String modifyForm(Long bno,Model model) {
+    public String modifyForm(Long bno, Model model) {
         BoardDTO boardDTO = boardService.findByBno(bno);
         model.addAttribute("dto", boardDTO);
-        return "studententrace/modify";
+        return "studententrance/modify";
     }
 
     @PostMapping("/studententrance/modify")
-    private String modifyStudententrance(@Valid BoardDTO boardDTO,
-                                         BindingResult bindingResult,
-                                         RedirectAttributes redirectAttributes) {
+    public String modify(@Valid BoardDTO boardDTO,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
         if(bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("bno", boardDTO.getBno());

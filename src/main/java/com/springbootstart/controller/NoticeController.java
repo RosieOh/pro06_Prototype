@@ -52,22 +52,21 @@ public class NoticeController {
     private final FileService fileService;
 
     @GetMapping({"/notice", "/notice/list"})
-    public String boardListAll(Model model, Principal principal, BoardDTO boardDTO) {
+    public String boardListAll(Model model, Principal principal) {
         String boardType = "NOTICE";
         List<BoardDTO> boardList = boardService.findByBoardType(boardType);
         if (principal != null) {
             model.addAttribute("username", principal.getName());
         }
         model.addAttribute("boardList", boardList);
-        boardDTO.setWriter(boardDTO.getWriter());
         String mid = principal.getName();
         Member member = memberRepository.findByMid(mid);
         model.addAttribute("member", member);
         model.addAttribute("principal", principal);
-        model.addAttribute("writer", principal);
         return "notice/list";
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/notice/read")
     public String readNotice(Long bno, Long id, Model model) {
         BoardDTO boardDTO = boardService.findByBno(bno);
