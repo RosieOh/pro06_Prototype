@@ -22,7 +22,7 @@
 
 ### 📚 Tech Stack
 #### 💻 Development
-<img src="https://skillicons.dev/icons?i=java,spring,mysql,javascript,jquery,react,express& perline="/>
+<img src="https://skillicons.dev/icons?i=java,spring,mysql,javascript,jquery& perline="/>
 
 #### ⌛ Developed Period
 ##### 2023.11.23 ~ 진행중
