@@ -24,10 +24,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -107,8 +104,6 @@ public class studentCTLBoardController {
     public String studentctlRegister(@Valid BoardDTO boardDTO,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes,
-                                 Principal principal,
-                                 Model model,
                                  @RequestParam("file") MultipartFile files) {
         log.info("board POST register.......");
         log.info("이름 어디 갔노" + boardDTO.getWriter());
@@ -119,7 +114,8 @@ public class studentCTLBoardController {
         try {
             String originFilename = files.getOriginalFilename();
             String filename = new MD5Generator(originFilename).toString();
-            String savePath = System.getProperty("user.dir") + "\\files";
+            String savePath = System.getProperty("user.dir") + "/files/";
+            log.info("어디로 가니?  " + savePath);
             if(!new File(savePath).exists()) {
                 try {
                     new File(savePath).mkdirs();
@@ -128,7 +124,8 @@ public class studentCTLBoardController {
                     e.printStackTrace();
                 }
             }
-            String filePath = savePath + "\\" + filename;
+            String filePath = savePath + filename;
+
             files.transferTo(new File(filePath));
 
             FileDTO fileDTO = new FileDTO();
@@ -138,6 +135,7 @@ public class studentCTLBoardController {
 
             Long fileId = fileService.saveFile(fileDTO);
             boardDTO.setFileId(fileId);
+            boardDTO.setWriter(boardDTO.getWriter());
             boardService.register(boardDTO);
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,14 +165,10 @@ public class studentCTLBoardController {
         return "redirect:/studentctl/read";
     }
 
-    @PostMapping("/studentctl/remove")
-    public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
-        Long bno = boardDTO.getBno();
+    @RequestMapping(value = "/studentctl/remove", method = {RequestMethod.GET, RequestMethod.POST})
+    public String remove(Long bno, RedirectAttributes redirectAttributes) {
+        log.info("remove post.. " + bno);
         boardService.remove(bno);
-        List<String> fileNames = boardDTO.getFileNames();
-        if(fileNames != null && fileNames.size() > 0) {
-            removeFiles(fileNames);
-        }
         redirectAttributes.addFlashAttribute("result", "removed");
         return "redirect:/studentctl/list";
     }

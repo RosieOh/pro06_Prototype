@@ -23,10 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -78,17 +75,6 @@ public class teacherEntranceBoardController {
         model.addAttribute("boardList", boardDTO);
         return "teacherentrance/read";
     }
-
-//    @GetMapping("/download/{fileId}")
-//    public ResponseEntity<Resource> teacherentrancefileDownload(@PathVariable("fileId") Long fileId) throws IOException {
-//        FileDTO fileDto = fileService.getFile(fileId);
-//        Path path = Paths.get(fileDto.getFilePath());
-//        Resource resource = new InputStreamResource(Files.newInputStream(path));
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType("application/octet-stream"))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDto.getOriginFilename() + "\"")
-//                .body(resource);
-//    }
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/teacherentrance/register")
@@ -165,14 +151,10 @@ public class teacherEntranceBoardController {
         return "redirect:/teacherentrance/read";
     }
 
-    @PostMapping("/teacherentrance/remove")
-    public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
-        Long bno = boardDTO.getBno();
+    @RequestMapping(value = "/teacherentrance/remove", method = {RequestMethod.GET, RequestMethod.POST})
+    public String remove(Long bno, RedirectAttributes redirectAttributes) {
+        log.info("remove post.. " + bno);
         boardService.remove(bno);
-        List<String> fileNames = boardDTO.getFileNames();
-        if(fileNames != null && fileNames.size() > 0) {
-            removeFiles(fileNames);
-        }
         redirectAttributes.addFlashAttribute("result", "removed");
         return "redirect:/teacherentrance/list";
     }

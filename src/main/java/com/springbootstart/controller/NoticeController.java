@@ -24,10 +24,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -159,14 +156,10 @@ public class NoticeController {
         return "redirect:/notice/read";
     }
 
-    @PostMapping("/notice/remove")
-    public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
-        Long bno = boardDTO.getBno();
+    @RequestMapping(value = "/notice/remove", method = {RequestMethod.GET, RequestMethod.POST})
+    public String remove(Long bno, RedirectAttributes redirectAttributes) {
+        log.info("remove post.. " + bno);
         boardService.remove(bno);
-        List<String> fileNames = boardDTO.getFileNames();
-        if(fileNames != null && fileNames.size() > 0) {
-            removeFiles(fileNames);
-        }
         redirectAttributes.addFlashAttribute("result", "removed");
         return "redirect:/notice/list";
     }
@@ -187,6 +180,5 @@ public class NoticeController {
             }
         }
     }
-
 
 }

@@ -66,28 +66,16 @@ public class studentEntranceController {
         return "studententrance/list";
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/studententrance/read")
     public String readStudententrance(Long bno, Long id, Model model) {
         BoardDTO boardDTO = boardService.findByBno(bno);
-        FileDTO fileDTO = fileService.getFile(id);
-        log.info(fileDTO);
+        FileDTO fileDTO = fileService.getFile(boardDTO.getFileId());
         log.info(boardDTO);
+        log.info(fileDTO.toString());
         model.addAttribute("boardList", boardDTO);
         model.addAttribute("fileList", fileDTO);
         return "studententrance/read";
     }
-
-//    @GetMapping("/download/{fileId}")
-//    public ResponseEntity<Resource> studententrancefileDownload(@PathVariable("fileId") Long fileId) throws IOException {
-//        FileDTO fileDto = fileService.getFile(fileId);
-//        Path path = Paths.get(fileDto.getFilePath());
-//        Resource resource = new InputStreamResource(Files.newInputStream(path));
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType("application/octet-stream"))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDto.getOriginFilename() + "\"")
-//                .body(resource);
-//    }
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/studententrance/register")
@@ -104,8 +92,6 @@ public class studentEntranceController {
     public String studententranceRegister(@Valid BoardDTO boardDTO,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes,
-                                 Principal principal,
-                                 Model model,
                                  @RequestParam("file") MultipartFile files) {
         log.info("board POST register.......");
         log.info("이름 어디 갔노" + boardDTO.getWriter());
@@ -116,7 +102,8 @@ public class studentEntranceController {
         try {
             String originFilename = files.getOriginalFilename();
             String filename = new MD5Generator(originFilename).toString();
-            String savePath = System.getProperty("user.dir") + "\\files";
+            String savePath = System.getProperty("user.dir") + "/files/";
+            log.info("어디로 가니?  " + savePath);
             if(!new File(savePath).exists()) {
                 try {
                     new File(savePath).mkdirs();
@@ -125,7 +112,8 @@ public class studentEntranceController {
                     e.printStackTrace();
                 }
             }
-            String filePath = savePath + "\\" + filename;
+            String filePath = savePath + filename;
+
             files.transferTo(new File(filePath));
 
             FileDTO fileDTO = new FileDTO();
@@ -135,6 +123,7 @@ public class studentEntranceController {
 
             Long fileId = fileService.saveFile(fileDTO);
             boardDTO.setFileId(fileId);
+            boardDTO.setWriter(boardDTO.getWriter());
             boardService.register(boardDTO);
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,14 +155,10 @@ public class studentEntranceController {
         return "redirect:/studententrance/read";
     }
 
-    @PostMapping("/studententrace/remove")
-    public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
-        Long bno = boardDTO.getBno();
+    @RequestMapping(value = "/studententrance/remove", method = {RequestMethod.GET, RequestMethod.POST})
+    public String remove(Long bno, RedirectAttributes redirectAttributes) {
+        log.info("remove post.. " + bno);
         boardService.remove(bno);
-        List<String> fileNames = boardDTO.getFileNames();
-        if(fileNames != null && fileNames.size() > 0) {
-            removeFiles(fileNames);
-        }
         redirectAttributes.addFlashAttribute("result", "removed");
         return "redirect:/studententrance/list";
     }
